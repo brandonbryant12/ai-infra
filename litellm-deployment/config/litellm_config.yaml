@@ -3,20 +3,6 @@
 
 model_list:
   # OpenWebUI Integration
-  - model_name: openwebui-default
-    litellm_params:
-      model: openai/openwebui-model
-      api_base: http://myinstance.com/api
-      api_key: os.environ/OPENWEBUI_API_KEY  # Reference environment variable
-      timeout: 600
-      stream_timeout: 60
-      
-  - model_name: openwebui-gpt4
-    litellm_params:
-      model: openai/gpt-4
-      api_base: http://myinstance.com/api
-      api_key: os.environ/OPENWEBUI_API_KEY
-      
   # OpenAI Direct
   - model_name: gpt-4
     litellm_params:
