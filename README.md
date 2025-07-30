@@ -77,3 +77,28 @@ The LiteLLM proxy is configured through:
       "stream": false
     }' \
     -v
+
+
+    python3 -c "
+  import http.server
+  import socketserver
+  import json
+
+  class HeaderHandler(http.server.BaseHTTPRequestHandler):
+      def do_POST(self):
+          print('=== Headers from Open WebUI ===')
+          for header, value in self.headers.items():
+              print(f'{header}: {value}')
+          print('================================')
+          
+          # Send back a dummy response
+          response = {'choices': [{'message': {'content': 'test response'}}]}
+          self.send_response(200)
+          self.send_header('Content-Type', 'application/json')
+          self.end_headers()
+          self.wfile.write(json.dumps(response).encode())
+          
+  with socketserver.TCPServer(('', 8001), HeaderHandler) as httpd:
+      print('Test server on http://localhost:8001')
+      httpd.serve_forever()
+  "
