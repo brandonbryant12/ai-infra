@@ -66,3 +66,14 @@ The LiteLLM proxy is configured through:
 - [ ] Database integration for usage tracking
 - [ ] Advanced load balancing
 - [ ] Monitoring and observability
+
+
+  curl -X POST "${OPENWEBUI_API_URL}/api/chat/completions" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer ${OPENQWEBUI_TOKEN}" \
+    -d '{
+      "model": "gpt-3.5-turbo",
+      "messages": [{"role": "user", "content": "test"}],
+      "stream": false
+    }' \
+    -v
