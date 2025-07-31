@@ -1,47 +1,22 @@
 model_list:
-
   - model_name: qwen3-32b
     litellm_params:
       model: openai/qwen3-32b
       api_base: http://localhost:3000/v1
       api_key: sk-local
-
-
-
-
   - model_name: qwen3-14b
     litellm_params:
       model: openai/qwen3-14b
       api_base: http://localhost:3000/v1
       api_key: sk-local
 
-
-
-
-
 general_settings:
-  master_key: sk-a6b7f6c25a5e23dbef0fd034817354d44b2c91512dea7bf8218d41e1cd635346
-
+  master_key: sk-26463c61c9c812f771e505a3368a980c4399f6e92705fe3956e399b568b9de4c
   user_header_name: X-OpenWebUI-User-Email
-
-
   database_url: postgresql://litellm:litellm@db:5432/litellm
-
-
-
 
 litellm_settings:
   disable_end_user_cost_tracking: false
   disable_end_user_cost_tracking_prometheus_only: false
-
   extra_spend_tag_headers:
-
     - "X-OpenWebUI-User-Email"
-
-
-
-
-
-
-
-
