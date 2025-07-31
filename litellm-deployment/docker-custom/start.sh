@@ -73,10 +73,15 @@ for var in $(env | grep "^LITELLM_MODEL_" | sort); do
     fi
 done
 
-# Use default models if none configured
+# Check if models are configured
 if [ $MODEL_COUNT -eq 0 ]; then
-    JSON_DATA+='{"name":"qwen3-32b","model":"openai/qwen3-32b","api_base":"http://localhost:3000/v1","api_key":"sk-local"},'
-    JSON_DATA+='{"name":"qwen3-14b","model":"openai/qwen3-14b","api_base":"http://localhost:3000/v1","api_key":"sk-local"}'
+    echo -e "${RED}Error: No models configured!${NC}"
+    echo -e "${YELLOW}You must set at least one model using environment variables.${NC}"
+    echo -e "${YELLOW}Example:${NC}"
+    echo -e "${GREEN}export LITELLM_MODEL_QWEN3_72B='model=openai/Qwen/Qwen2.5-72B-Instruct,api_base=http://localhost:8000/v1,api_key=local-key'${NC}"
+    echo -e "${GREEN}export LITELLM_MODEL_QWEN3_32B='model=openai/Qwen/Qwen2.5-32B-Instruct,api_base=http://localhost:8001/v1,api_key=local-key'${NC}"
+    echo -e "${GREEN}export LITELLM_MODEL_QWEN3_14B='model=openai/Qwen/Qwen2.5-14B-Instruct,api_base=http://localhost:8002/v1,api_key=local-key'${NC}"
+    exit 1
 fi
 JSON_DATA+='],'
 
