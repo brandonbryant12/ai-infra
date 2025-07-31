@@ -5,6 +5,8 @@ docker-compose.override.yml
 # Environment files
 .env
 .env.local
+litellm.env
+!litellm.env.example
 
 # Temporary files
 *.tmp

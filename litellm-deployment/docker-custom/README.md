@@ -4,7 +4,7 @@ A flexible Docker setup for deploying LiteLLM proxy with support for multiple mo
 
 ## Features
 
-- YAML-based model configuration (models.yaml)
+- Environment-based model configuration via `litellm.env` file
 - Dynamic configuration generation using Jinja2 templates
 - Support for multiple model providers (OpenAI, Anthropic, Ollama, vLLM, etc.)
 - Separate database setup with Docker
@@ -16,21 +16,18 @@ A flexible Docker setup for deploying LiteLLM proxy with support for multiple mo
 1. **Set up the database** (optional - for local PostgreSQL):
    ```bash
    ./setup-db.sh
-   export DATABASE_URL="postgresql://litellm:litellm@localhost:5444/litellm"
+   # Add the DATABASE_URL to your litellm.env file
    ```
 
-   Or use an external database:
+   Or use an external database by adding to `litellm.env`:
    ```bash
-   export DATABASE_URL="postgresql://user:password@host:port/database"
+   DATABASE_URL=postgresql://user:password@host:port/database
    ```
 
-2. **Configure your models** in `models.yaml`:
-   ```yaml
-   models:
-     - name: gpt-4
-       model: openai/gpt-4
-       api_base: https://api.openai.com/v1
-       api_key: ${OPENAI_API_KEY}
+2. **Configure your models** in `litellm.env`:
+   ```bash
+   # Example model configuration
+   LITELLM_MODEL_GPT4=model=openai/gpt-4,api_base=https://api.openai.com/v1,api_key=${OPENAI_API_KEY}
    ```
 
 3. **Run the start script**:
@@ -40,118 +37,66 @@ A flexible Docker setup for deploying LiteLLM proxy with support for multiple mo
 
 ## Model Configuration
 
-Models are now configured in the `models.yaml` file instead of environment variables.
+Models are configured in the `litellm.env` file using environment variables.
 
 ### Configuration Format
 
-Edit `models.yaml` to add your models:
+Edit `litellm.env` to add your models:
 
-```yaml
-models:
-  - name: model-display-name
-    model: provider/model-id
-    api_base: https://api-endpoint.com/v1
-    api_key: your-api-key-or-${ENV_VAR}
+```bash
+LITELLM_MODEL_<NAME>=model=<provider/model-id>,api_base=<api-endpoint>,api_key=<api-key>
 ```
 
 ### Example Configurations
 
 #### Local Models (vLLM, Ollama, etc.)
-```yaml
-models:
-  # Qwen models via vLLM
-  - name: qwen3-72b
-    model: openai/Qwen/Qwen2.5-72B-Instruct
-    api_base: http://localhost:8000/v1
-    api_key: local-key
-  
-  - name: qwen3-32b
-    model: openai/Qwen/Qwen2.5-32B-Instruct
-    api_base: http://localhost:8001/v1
-    api_key: local-key
-  
-  # Llama models via Ollama
-  - name: llama3-70b
-    model: openai/llama3.1:70b
-    api_base: http://localhost:11434/v1
-    api_key: ollama
-  
-  - name: mistral
-    model: openai/mistral:latest
-    api_base: http://localhost:11434/v1
-    api_key: ollama
+```bash
+# Qwen models via vLLM
+LITELLM_MODEL_QWEN3_72B=model=openai/Qwen/Qwen2.5-72B-Instruct,api_base=http://localhost:8000/v1,api_key=local-key
+LITELLM_MODEL_QWEN3_32B=model=openai/Qwen/Qwen2.5-32B-Instruct,api_base=http://localhost:8001/v1,api_key=local-key
+
+# Llama models via Ollama  
+LITELLM_MODEL_LLAMA3_70B=model=openai/llama3.1:70b,api_base=http://localhost:11434/v1,api_key=ollama
+LITELLM_MODEL_MISTRAL=model=openai/mistral:latest,api_base=http://localhost:11434/v1,api_key=ollama
 ```
 
 #### Cloud Providers
-```yaml
-models:
-  # OpenAI
-  - name: gpt-4
-    model: openai/gpt-4
-    api_base: https://api.openai.com/v1
-    api_key: ${OPENAI_API_KEY}  # Uses environment variable
-  
-  - name: gpt-3.5-turbo
-    model: openai/gpt-3.5-turbo
-    api_base: https://api.openai.com/v1
-    api_key: ${OPENAI_API_KEY}
-  
-  # Anthropic
-  - name: claude-3-opus
-    model: anthropic/claude-3-opus-20240229
-    api_base: https://api.anthropic.com/v1
-    api_key: ${ANTHROPIC_API_KEY}
-  
-  - name: claude-3-sonnet
-    model: anthropic/claude-3-sonnet-20240229
-    api_base: https://api.anthropic.com/v1
-    api_key: ${ANTHROPIC_API_KEY}
-  
-  # Azure OpenAI
-  - name: azure-gpt-4
-    model: azure/gpt-4
-    api_base: https://your-resource.openai.azure.com
-    api_key: ${AZURE_API_KEY}
-  
-  # Google Vertex AI
-  - name: gemini-pro
-    model: vertex_ai/gemini-pro
-    api_base: https://us-central1-aiplatform.googleapis.com
-    api_key: ${VERTEX_API_KEY}
+```bash
+# OpenAI
+LITELLM_MODEL_GPT4=model=openai/gpt-4,api_base=https://api.openai.com/v1,api_key=${OPENAI_API_KEY}
+LITELLM_MODEL_GPT35_TURBO=model=openai/gpt-3.5-turbo,api_base=https://api.openai.com/v1,api_key=${OPENAI_API_KEY}
+
+# Anthropic
+LITELLM_MODEL_CLAUDE3_OPUS=model=anthropic/claude-3-opus-20240229,api_base=https://api.anthropic.com/v1,api_key=${ANTHROPIC_API_KEY}
+LITELLM_MODEL_CLAUDE3_SONNET=model=anthropic/claude-3-sonnet-20240229,api_base=https://api.anthropic.com/v1,api_key=${ANTHROPIC_API_KEY}
+
+# Azure OpenAI
+LITELLM_MODEL_AZURE_GPT4=model=azure/gpt-4,api_base=https://your-resource.openai.azure.com,api_key=${AZURE_API_KEY}
+
+# Google Vertex AI
+LITELLM_MODEL_GEMINI_PRO=model=vertex_ai/gemini-pro,api_base=https://us-central1-aiplatform.googleapis.com,api_key=${VERTEX_API_KEY}
 ```
 
 #### Custom/Self-Hosted Endpoints
-```yaml
-models:
-  # Text Generation Inference (HuggingFace)
-  - name: falcon-40b
-    model: openai/tiiuae/falcon-40b
-    api_base: http://your-tgi-server:8080/v1
-    api_key: your-key
-  
-  # Custom OpenAI-compatible endpoints
-  - name: custom-model-1
-    model: openai/custom-model-1
-    api_base: https://your-api.com/v1
-    api_key: ${CUSTOM_API_KEY}
+```bash
+# Text Generation Inference (HuggingFace)
+LITELLM_MODEL_FALCON_40B=model=openai/tiiuae/falcon-40b,api_base=http://your-tgi-server:8080/v1,api_key=your-key
+
+# Custom OpenAI-compatible endpoints
+LITELLM_MODEL_CUSTOM1=model=openai/custom-model-1,api_base=https://your-api.com/v1,api_key=${CUSTOM_API_KEY}
 ```
 
 ### Using Environment Variables
 
 You can use environment variables in the `api_key` field by using the format `${VARIABLE_NAME}`:
 
-```yaml
-models:
-  - name: gpt-4
-    model: openai/gpt-4
-    api_base: https://api.openai.com/v1
-    api_key: ${OPENAI_API_KEY}
+```bash
+LITELLM_MODEL_GPT4=model=openai/gpt-4,api_base=https://api.openai.com/v1,api_key=${OPENAI_API_KEY}
 ```
 
-Then set the environment variable before running:
+Then set the environment variable in `litellm.env`:
 ```bash
-export OPENAI_API_KEY="sk-your-actual-api-key"
-./start.sh
+OPENAI_API_KEY=sk-your-actual-api-key
 ```
 
 ## Database Setup
@@ -251,7 +196,7 @@ curl http://localhost:4000/v1/chat/completions \
 
 ## Files
 
-- `models.yaml`: Model configuration file (you create this)
+- `litellm.env`: Environment configuration file (you create this)
 - `setup-db.sh`: Database setup script
 - `start.sh`: Main startup script
 - `docker-compose.yml`: Docker services definition
@@ -263,18 +208,18 @@ curl http://localhost:4000/v1/chat/completions \
 
 ### No Models Configured Error
 ```
-Error: No models configured in models.yaml!
+Error: No models configured!
 ```
-Solution: Edit `models.yaml` and uncomment/add at least one model configuration
+Solution: Edit `litellm.env` and add at least one LITELLM_MODEL_* configuration
 
 ### Database Connection Error
 ```
-Error: DATABASE_URL environment variable is not set!
+Error: DATABASE_URL not set in litellm.env!
 ```
-Solution: Run `./setup-db.sh` and export the DATABASE_URL, or set your own
+Solution: Run `./setup-db.sh` and add the DATABASE_URL to litellm.env, or set your own
 
-### YAML Parse Error
-Check your `models.yaml` syntax. Each model needs: name, model, api_base, and api_key
+### Configuration Parse Error
+Check your `litellm.env` syntax. Each model needs: model, api_base, and api_key parameters
 
 ### Connection Refused
 - Verify your model endpoints are accessible
@@ -284,6 +229,6 @@ Check your `models.yaml` syntax. Each model needs: name, model, api_base, and ap
 ## Security Notes
 
 - Master key is displayed during startup - save it securely
-- Store API keys as environment variables, not directly in models.yaml
+- Store API keys as environment variables in litellm.env, not directly
 - Use HTTPS for production deployments
-- The `.gitignore` should include `litellm_config.yaml` and `docker-compose.override.yml`
+- The `.gitignore` should include `litellm.env`, `litellm_config.yaml` and `docker-compose.override.yml`

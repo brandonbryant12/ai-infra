@@ -7,7 +7,8 @@
       "Bash(/dev/null)",
       "Bash(./start.sh:*)",
       "Bash(bash:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }
