@@ -15,18 +15,8 @@ class HeaderHandler(http.server.BaseHTTPRequestHandler):
         response = {'choices': [{'message': {'content': 'test response'}}]}
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', '*')
         self.end_headers()
         self.wfile.write(json.dumps(response).encode())
-    
-    def do_OPTIONS(self):
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', '*')
-        self.end_headers()
         
 if __name__ == "__main__":
     with socketserver.TCPServer(('', 8001), HeaderHandler) as httpd:
