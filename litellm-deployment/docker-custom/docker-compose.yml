@@ -25,13 +25,16 @@ services:
       - "4000:4000"
     volumes:
       - ./litellm_config.yaml:/app/config.yaml:ro
+      - ui_data:/app/ui                                   # persist Web UI
     environment:
       - DATABASE_URL=postgresql://litellm:litellm@db:5432/litellm
-    command: >-
-      --config /app/config.yaml
-      --port 4000
+    entrypoint: ["/bin/sh", "-c"]                       # run shell first
+    command: |
+      litellm --config /app/config.yaml --port 4000 --host 0.0.0.0
     restart: unless-stopped
 
 volumes:
   db_data:
+    driver: local
+  ui_data:                                                # volume for downloaded UI
     driver: local
