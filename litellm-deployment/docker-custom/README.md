@@ -1,492 +1,144 @@
-# LiteLLM Custom Docker Build
+# LiteLLM Docker Custom Deployment
 
-Build your own minimal LiteLLM Docker image for optimal size and security.
+This directory contains a flexible Docker setup for deploying LiteLLM proxy with dynamic configuration support.
 
-## Why Custom Build?
+## Features
 
-- **Smaller Size**: 80-250MB vs 500-800MB official image
-- **Better Security**: Non-root user, minimal attack surface
-- **Customization**: Add only what you need
-- **Multi-architecture**: Build for specific platforms
+- Dynamic configuration generation using Jinja2 templates
+- Support for external or local PostgreSQL database
+- Environment variable-based model configuration
+- Automatic master key generation if not provided
+- Docker Compose override for flexible deployment
 
-## Build Options
+## Quick Start
 
-### 1. Standard Slim Build
+1. Copy `.env.example` to `.env` and configure your settings:
+   ```bash
+   cp .env.example .env
+   ```
 
-**Size**: ~150-250MB
+2. Run the start script:
+   ```bash
+   ./start.sh
+   ```
 
-Create `Dockerfile`:
+The script will:
+- Install required dependencies (Jinja2)
+- Generate `litellm_config.yaml` from environment variables
+- Set up database (local or external based on `DATABASE_URL`)
+- Start the LiteLLM proxy service
 
-```dockerfile
-# Use official Python slim image for minimal size
-FROM python:3.11-slim
+## Environment Variables
 
-# Set working directory
-WORKDIR /app
+### Required
+- `LITELLM_MASTER_KEY`: Admin access key (auto-generated if not set)
 
-# Install only the necessary dependencies
-RUN pip install --no-cache-dir 'litellm[proxy]' && \
-    # Clean up pip cache and unnecessary files
-    pip cache purge && \
-    rm -rf /root/.cache/pip/* && \
-    # Remove unnecessary Python files
-    find /usr/local/lib/python3.11 -name '__pycache__' -type d -exec rm -rf {} + && \
-    find /usr/local/lib/python3.11 -name '*.pyc' -delete && \
-    # Remove test files and docs
-    find /usr/local/lib/python3.11 -name 'test*' -type d -exec rm -rf {} + && \
-    find /usr/local/lib/python3.11 -name 'tests' -type d -exec rm -rf {} + && \
-    # Clean apt cache
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+### Optional Database
+- `DATABASE_URL`: External PostgreSQL URL (if not set, local DB is used)
 
-# Create non-root user for security
-RUN useradd -m -u 1000 litellm && chown -R litellm:litellm /app
-USER litellm
-
-# Expose port
-EXPOSE 4000
-
-# Set entrypoint
-ENTRYPOINT ["litellm"]
-CMD ["--port", "4000"]
-```
-
-### 2. Multi-Stage Build
-
-**Size**: ~120-180MB
-
-Create `Dockerfile.multistage`:
-
-```dockerfile
-# Build stage
-FROM python:3.11-slim as builder
-
-WORKDIR /app
-
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    python3-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Create virtual environment
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Install litellm
-RUN pip install --no-cache-dir 'litellm[proxy]'
-
-# Runtime stage
-FROM python:3.11-slim
-
-WORKDIR /app
-
-# Copy virtual environment from builder
-COPY --from=builder /opt/venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Create non-root user
-RUN useradd -m -u 1000 litellm && chown -R litellm:litellm /app
-USER litellm
-
-EXPOSE 4000
-
-ENTRYPOINT ["litellm"]
-CMD ["--port", "4000"]
-```
-
-### 3. Alpine Linux Build
-
-**Size**: ~80-120MB
-
-Create `Dockerfile.alpine`:
-
-```dockerfile
-FROM python:3.11-alpine
-
-WORKDIR /app
-
-# Install build dependencies temporarily
-RUN apk add --no-cache --virtual .build-deps \
-    gcc \
-    musl-dev \
-    python3-dev \
-    && pip install --no-cache-dir 'litellm[proxy]' \
-    && apk del .build-deps \
-    && rm -rf /root/.cache/pip/*
-
-# Create non-root user
-RUN adduser -D -u 1000 litellm && chown -R litellm:litellm /app
-USER litellm
-
-EXPOSE 4000
-
-ENTRYPOINT ["litellm"]
-CMD ["--port", "4000"]
-```
-
-### 4. Security-Hardened Build
-
-**Size**: ~150-200MB
-
-Create `Dockerfile.secure`:
-
-```dockerfile
-# Multi-stage security-focused build
-FROM python:3.11-slim as builder
-
-WORKDIR /build
-
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    python3-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Create virtual environment
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Install dependencies
-RUN pip install --no-cache-dir 'litellm[proxy]' requests
-
-# Runtime stage
-FROM python:3.11-slim
-
-# Install security updates
-RUN apt-get update && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy virtual environment
-COPY --from=builder /opt/venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Security settings
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PIP_NO_CACHE_DIR=1
-
-# Create app directory with restricted permissions
-RUN mkdir -p /app && chmod 755 /app
-
-# Create non-root user
-RUN groupadd -r litellm && useradd -r -g litellm -u 1000 litellm
-
-# Set ownership
-RUN chown -R litellm:litellm /app
-
-WORKDIR /app
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:4000/health')" || exit 1
-
-USER litellm
-
-EXPOSE 4000
-
-ENTRYPOINT ["litellm"]
-CMD ["--port", "4000"]
-```
-
-## Build Process
-
-### Basic Build
-
+### Model Configuration
+Configure models using environment variables:
 ```bash
-# Choose your Dockerfile
-docker build -t litellm-proxy:custom -f Dockerfile .
-
-# Build with build arguments
-docker build \
-  --build-arg PYTHON_VERSION=3.11 \
-  -t litellm-proxy:custom .
+LITELLM_MODEL_<NAME>="model=<model>,api_base=<base>,api_key=<key>"
 ```
 
-### Multi-Architecture Build
-
+Example:
 ```bash
-# Setup buildx
-docker buildx create --name multiarch --use
-
-# Build for multiple platforms
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t litellm-proxy:custom \
-  --push .
+LITELLM_MODEL_GPT4="model=openai/gpt-4,api_base=https://api.openai.com/v1,api_key=sk-xxx"
+LITELLM_MODEL_CLAUDE="model=anthropic/claude-3,api_base=https://api.anthropic.com,api_key=sk-ant-xxx"
 ```
 
-### Build with Cache
+### Other Settings
+- `LITELLM_PORT`: Proxy port (default: 4000)
+- `USER_HEADER_NAME`: User identification header
+- `DISABLE_END_USER_COST_TRACKING`: Disable cost tracking
+- `LITELLM_EXTRA_HEADERS`: Additional headers for spend tracking
+- See `.env.example` for all available options
 
+## Usage
+
+### Start services
 ```bash
-# Use BuildKit for better caching
-DOCKER_BUILDKIT=1 docker build \
-  --cache-from litellm-proxy:custom \
-  -t litellm-proxy:custom .
+./start.sh
 ```
 
-## Supporting Files
-
-### .dockerignore
-
-Create `.dockerignore`:
-
-```
-# Git
-.git
-.gitignore
-
-# Documentation
-*.md
-LICENSE
-docs/
-
-# Development
-.env
-.env.*
-*.log
-__pycache__
-*.pyc
-.pytest_cache
-.coverage
-htmlcov/
-dist/
-build/
-*.egg-info/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Config files (will be mounted)
-litellm_config.yaml
-config/
-```
-
-### docker-compose.yml
-
-Create `docker-compose.yml`:
-
-```yaml
-version: '3.8'
-
-services:
-  litellm:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - PYTHON_VERSION=3.11
-    image: litellm-proxy:custom
-    container_name: litellm-proxy
-    ports:
-      - "4000:4000"
-    volumes:
-      - ./litellm_config.yaml:/app/config.yaml:ro
-    environment:
-      - OPENWEBUI_API_KEY=${OPENWEBUI_API_KEY}
-      - OPENWEBUI_API_BASE=${OPENWEBUI_API_BASE}
-    command: --config /app/config.yaml
-    restart: unless-stopped
-    # Security options
-    security_opt:
-      - no-new-privileges:true
-    read_only: true
-    tmpfs:
-      - /tmp
-      - /app/.cache
-    healthcheck:
-      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:4000/health')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-```
-
-## Running Your Custom Image
-
-### Basic Run
-
+### View logs
 ```bash
-docker run -d \
-  --name litellm-proxy \
-  -v $(pwd)/litellm_config.yaml:/app/config.yaml:ro \
-  -p 4000:4000 \
-  litellm-proxy:custom \
-  --config /app/config.yaml
+docker-compose logs -f
 ```
 
-### Production Run
-
+### Stop services
 ```bash
-docker run -d \
-  --name litellm-proxy \
-  --restart always \
-  --memory="512m" \
-  --cpus="0.5" \
-  --security-opt no-new-privileges:true \
-  --read-only \
-  --tmpfs /tmp:noexec,nosuid,size=100m \
-  -v $(pwd)/litellm_config.yaml:/app/config.yaml:ro \
-  -p 127.0.0.1:4000:4000 \
-  litellm-proxy:custom \
-  --config /app/config.yaml
+docker-compose down
 ```
 
-### With Environment Variables Only
-
+### Clean up (including volumes)
 ```bash
-docker run -d \
-  --name litellm-proxy \
-  -e OPENWEBUI_API_KEY="your-api-key" \
-  -e OPENWEBUI_API_BASE="http://myinstance.com/api" \
-  -p 4000:4000 \
-  litellm-proxy:custom \
-  --model openai/openwebui-model \
-  --api_base "$OPENWEBUI_API_BASE" \
-  --api_key "$OPENWEBUI_API_KEY"
+docker-compose down -v
 ```
 
-## Image Optimization
+## Files
 
-### Size Comparison
+- `start.sh`: Main startup script
+- `litellm_config.yaml.j2`: Jinja2 template for config generation
+- `docker-compose.yml`: Base Docker Compose configuration
+- `docker-compose.override.yml`: Generated override (do not edit)
+- `.env.example`: Example environment variables
+- `Dockerfile`: Custom LiteLLM image (optional)
 
-| Build Type | Base Image | Final Size | Build Time |
-|------------|------------|------------|------------|
-| Official | Full Python | 500-800MB | N/A |
-| Slim | python:3.11-slim | 150-250MB | 2-3 min |
-| Multi-stage | python:3.11-slim | 120-180MB | 3-4 min |
-| Alpine | python:3.11-alpine | 80-120MB | 5-10 min |
-| Security-hardened | python:3.11-slim | 150-200MB | 3-4 min |
+## Database Configuration
 
-### Further Optimization
-
-1. **Remove Unnecessary Locales**:
-```dockerfile
-RUN apt-get update && apt-get install -y locales-all && \
-    locale-gen en_US.UTF-8 && \
-    apt-get purge -y locales-all && \
-    apt-get clean
-```
-
-2. **Strip Python Packages**:
-```dockerfile
-RUN find /opt/venv -name "*.so" -exec strip {} \;
-```
-
-3. **Use Distroless Base** (experimental):
-```dockerfile
-FROM gcr.io/distroless/python3-debian11
-COPY --from=builder /opt/venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-```
-
-## Testing Your Build
-
-### Smoke Test
-
+### Using External Database
+Set the `DATABASE_URL` environment variable:
 ```bash
-# Test the image
-docker run --rm litellm-proxy:custom --version
-
-# Test with config
-docker run --rm \
-  -v $(pwd)/litellm_config.yaml:/app/config.yaml:ro \
-  litellm-proxy:custom \
-  --config /app/config.yaml --check
+DATABASE_URL=postgresql://user:password@host:port/database
 ```
 
-### Security Scan
+### Using Local Database
+Leave `DATABASE_URL` empty, and the script will automatically set up a local PostgreSQL container.
 
+## Advanced Configuration
+
+### Router Settings
+For load balancing and Redis integration:
 ```bash
-# Scan with Trivy
-trivy image litellm-proxy:custom
-
-# Scan with Docker Scout
-docker scout cves litellm-proxy:custom
+LITELLM_ROUTER_STRATEGY=simple-shuffle
+LITELLM_ROUTER_REDIS_HOST=localhost
+LITELLM_ROUTER_REDIS_PORT=6379
+LITELLM_ROUTER_REDIS_PASSWORD=your-redis-password
 ```
 
-### Performance Test
-
+### Request Handling
 ```bash
-# Benchmark startup time
-time docker run --rm litellm-proxy:custom --help
-
-# Check resource usage
-docker stats --no-stream litellm-proxy
-```
-
-## CI/CD Integration
-
-### GitHub Actions
-
-Create `.github/workflows/docker-build.yml`:
-
-```yaml
-name: Build Custom Docker Image
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-    
-    - name: Build and test
-      run: |
-        docker build -t litellm-proxy:test .
-        docker run --rm litellm-proxy:test --version
-    
-    - name: Security scan
-      uses: aquasecurity/trivy-action@master
-      with:
-        image-ref: litellm-proxy:test
-        format: 'sarif'
-        output: 'trivy-results.sarif'
+LITELLM_MAX_PARALLEL_REQUESTS=100
+LITELLM_NUM_RETRIES=3
+LITELLM_REQUEST_TIMEOUT=600
 ```
 
 ## Troubleshooting
 
-### Build Failures
-
+### Check if services are running
 ```bash
-# Build with no cache
-docker build --no-cache -t litellm-proxy:custom .
-
-# Verbose build
-DOCKER_BUILDKIT=1 docker build --progress=plain -t litellm-proxy:custom .
+docker-compose ps
 ```
 
-### Runtime Issues
-
+### View detailed logs
 ```bash
-# Debug shell access
-docker run -it --rm --entrypoint /bin/sh litellm-proxy:custom
-
-# Check dependencies
-docker run --rm litellm-proxy:custom pip list
+docker-compose logs litellm
+docker-compose logs db  # if using local database
 ```
 
-## Best Practices
+### Regenerate configuration
+```bash
+./start.sh
+```
 
-1. **Pin Versions**: Always pin Python and pip package versions
-2. **Layer Caching**: Order Dockerfile commands from least to most frequently changing
-3. **Security**: Run as non-root, use read-only filesystem
-4. **Size**: Remove unnecessary files, use multi-stage builds
-5. **Updates**: Regularly rebuild to get security patches
+### Access the proxy
+The proxy will be available at `http://localhost:4000` (or the port specified in `LITELLM_PORT`)
+
+## Security Notes
+
+- The master key is displayed during startup - save it securely
+- Use strong passwords for database connections
+- Keep API keys secure in environment variables
+- Consider using Docker secrets for production deployments

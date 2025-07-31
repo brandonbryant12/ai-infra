@@ -22,15 +22,16 @@ services:
     depends_on:
       - db
     ports:
-      - "4000:4000"
+      - "${LITELLM_PORT:-4000}:4000"
     volumes:
       - ./litellm_config.yaml:/app/config.yaml:ro
       - ui_data:/app/ui                                   # persist Web UI
     environment:
-      - DATABASE_URL=postgresql://litellm:litellm@db:5432/litellm
+      - DATABASE_URL=${DATABASE_URL:-postgresql://litellm:litellm@db:5432/litellm}
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
     entrypoint: ["/bin/sh", "-c"]                       # run shell first
     command: |
-      litellm --config /app/config.yaml --port 4000 --host 0.0.0.0
+      litellm --config /app/config.yaml --port 4000 --host 0.0.0.0 --detailed_debug
     restart: unless-stopped
 
 volumes:

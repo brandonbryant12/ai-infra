@@ -1,0 +1,15 @@
+# Generated files
+litellm_config.yaml
+docker-compose.override.yml
+
+# Environment files
+.env
+.env.local
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db

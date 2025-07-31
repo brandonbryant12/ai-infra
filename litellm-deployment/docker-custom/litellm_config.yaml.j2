@@ -1,0 +1,73 @@
+model_list:
+{% for model in models %}
+  - model_name: {{ model.name }}
+    litellm_params:
+      model: {{ model.model }}
+      api_base: {{ model.api_base }}
+      api_key: {{ model.api_key }}
+{% if model.api_version is defined %}
+      api_version: {{ model.api_version }}
+{% endif %}
+{% if model.max_tokens is defined %}
+      max_tokens: {{ model.max_tokens }}
+{% endif %}
+{% if model.temperature is defined %}
+      temperature: {{ model.temperature }}
+{% endif %}
+{% endfor %}
+
+general_settings:
+  master_key: {{ master_key }}
+{% if user_header_name is defined %}
+  user_header_name: {{ user_header_name }}
+{% endif %}
+{% if database_url is defined %}
+  database_url: {{ database_url }}
+{% endif %}
+{% if proxy_budget_rescheduler_min_time is defined %}
+  proxy_budget_rescheduler_min_time: {{ proxy_budget_rescheduler_min_time }}
+{% endif %}
+{% if proxy_budget_rescheduler_max_time is defined %}
+  proxy_budget_rescheduler_max_time: {{ proxy_budget_rescheduler_max_time }}
+{% endif %}
+
+litellm_settings:
+  disable_end_user_cost_tracking: {{ disable_end_user_cost_tracking | default(false) | lower }}
+  disable_end_user_cost_tracking_prometheus_only: {{ disable_end_user_cost_tracking_prometheus_only | default(false) | lower }}
+{% if extra_spend_tag_headers is defined %}
+  extra_spend_tag_headers:
+{% for header in extra_spend_tag_headers %}
+    - "{{ header }}"
+{% endfor %}
+{% endif %}
+{% if drop_params is defined %}
+  drop_params: {{ drop_params | lower }}
+{% endif %}
+{% if max_parallel_requests is defined %}
+  max_parallel_requests: {{ max_parallel_requests }}
+{% endif %}
+{% if num_retries is defined %}
+  num_retries: {{ num_retries }}
+{% endif %}
+{% if request_timeout is defined %}
+  request_timeout: {{ request_timeout }}
+{% endif %}
+{% if telemetry is defined %}
+  telemetry: {{ telemetry | lower }}
+{% endif %}
+
+{% if router_settings is defined %}
+router_settings:
+{% if router_settings.routing_strategy is defined %}
+  routing_strategy: {{ router_settings.routing_strategy }}
+{% endif %}
+{% if router_settings.redis_host is defined %}
+  redis_host: {{ router_settings.redis_host }}
+{% endif %}
+{% if router_settings.redis_port is defined %}
+  redis_port: {{ router_settings.redis_port }}
+{% endif %}
+{% if router_settings.redis_password is defined %}
+  redis_password: {{ router_settings.redis_password }}
+{% endif %}
+{% endif %}
