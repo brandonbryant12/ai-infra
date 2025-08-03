@@ -1,0 +1,28 @@
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    ports:
+      - "${LITELLM_PORT:-4000}:4000"
+    networks:
+      - llmnet
+    volumes:
+      - ./update-models.py:/app/update-models.py:ro
+      - ./requirements.txt:/app/requirements.txt:ro
+      - ./startup.sh:/app/startup.sh:ro
+      - ./config.yaml:/app/config.yaml:rw
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-admin-key-12345}
+      - CONFIG_PATH=/app/config.yaml
+    entrypoint: ["/bin/bash", "/app/startup.sh"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  llmnet:
+    external: true

@@ -1,0 +1,1485 @@
+model_list:
+- model_name: mistralai-codestral-2508
+  litellm_params:
+    model: openrouter/mistralai/codestral-2508
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-30b-a3b-instruct-2507
+  litellm_params:
+    model: openrouter/qwen/qwen3-30b-a3b-instruct-2507
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: z-ai-glm-4.5
+  litellm_params:
+    model: openrouter/z-ai/glm-4.5
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: z-ai-glm-4.5-air-free
+  litellm_params:
+    model: openrouter/z-ai/glm-4.5-air:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: z-ai-glm-4.5-air
+  litellm_params:
+    model: openrouter/z-ai/glm-4.5-air
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-235b-a22b-thinking-2507
+  litellm_params:
+    model: openrouter/qwen/qwen3-235b-a22b-thinking-2507
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: z-ai-glm-4-32b
+  litellm_params:
+    model: openrouter/z-ai/glm-4-32b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-coder-free
+  litellm_params:
+    model: openrouter/qwen/qwen3-coder:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-coder
+  litellm_params:
+    model: openrouter/qwen/qwen3-coder
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: bytedance-ui-tars-1.5-7b
+  litellm_params:
+    model: openrouter/bytedance/ui-tars-1.5-7b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-2.5-flash-lite
+  litellm_params:
+    model: openrouter/google/gemini-2.5-flash-lite
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-235b-a22b-2507
+  litellm_params:
+    model: openrouter/qwen/qwen3-235b-a22b-2507
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: switchpoint-router
+  litellm_params:
+    model: openrouter/switchpoint/router
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: moonshotai-kimi-k2-free
+  litellm_params:
+    model: openrouter/moonshotai/kimi-k2:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: moonshotai-kimi-k2
+  litellm_params:
+    model: openrouter/moonshotai/kimi-k2
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thudm-glm-4.1v-9b-thinking
+  litellm_params:
+    model: openrouter/thudm/glm-4.1v-9b-thinking
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-devstral-medium
+  litellm_params:
+    model: openrouter/mistralai/devstral-medium
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-devstral-small
+  litellm_params:
+    model: openrouter/mistralai/devstral-small
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cognitivecomputations-dolphin-mistral-24b-venice-edition-free
+  litellm_params:
+    model: openrouter/cognitivecomputations/dolphin-mistral-24b-venice-edition:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: x-ai-grok-4
+  litellm_params:
+    model: openrouter/x-ai/grok-4
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-3n-e2b-it-free
+  litellm_params:
+    model: openrouter/google/gemma-3n-e2b-it:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: tencent-hunyuan-a13b-instruct-free
+  litellm_params:
+    model: openrouter/tencent/hunyuan-a13b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: tencent-hunyuan-a13b-instruct
+  litellm_params:
+    model: openrouter/tencent/hunyuan-a13b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: tngtech-deepseek-r1t2-chimera-free
+  litellm_params:
+    model: openrouter/tngtech/deepseek-r1t2-chimera:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: tngtech-deepseek-r1t2-chimera
+  litellm_params:
+    model: openrouter/tngtech/deepseek-r1t2-chimera
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: morph-morph-v3-large
+  litellm_params:
+    model: openrouter/morph/morph-v3-large
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: morph-morph-v3-fast
+  litellm_params:
+    model: openrouter/morph/morph-v3-fast
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: baidu-ernie-4.5-300b-a47b
+  litellm_params:
+    model: openrouter/baidu/ernie-4.5-300b-a47b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thedrummer-anubis-70b-v1.1
+  litellm_params:
+    model: openrouter/thedrummer/anubis-70b-v1.1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: inception-mercury
+  litellm_params:
+    model: openrouter/inception/mercury
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-small-3.2-24b-instruct-free
+  litellm_params:
+    model: openrouter/mistralai/mistral-small-3.2-24b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-small-3.2-24b-instruct
+  litellm_params:
+    model: openrouter/mistralai/mistral-small-3.2-24b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: minimax-minimax-m1
+  litellm_params:
+    model: openrouter/minimax/minimax-m1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-2.5-flash-lite-preview-06-17
+  litellm_params:
+    model: openrouter/google/gemini-2.5-flash-lite-preview-06-17
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-2.5-flash
+  litellm_params:
+    model: openrouter/google/gemini-2.5-flash
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-2.5-pro
+  litellm_params:
+    model: openrouter/google/gemini-2.5-pro
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: moonshotai-kimi-dev-72b-free
+  litellm_params:
+    model: openrouter/moonshotai/kimi-dev-72b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: x-ai-grok-3-mini
+  litellm_params:
+    model: openrouter/x-ai/grok-3-mini
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: x-ai-grok-3
+  litellm_params:
+    model: openrouter/x-ai/grok-3
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-magistral-small-2506
+  litellm_params:
+    model: openrouter/mistralai/magistral-small-2506
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-magistral-medium-2506
+  litellm_params:
+    model: openrouter/mistralai/magistral-medium-2506
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-magistral-medium-2506-thinking
+  litellm_params:
+    model: openrouter/mistralai/magistral-medium-2506:thinking
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-2.5-pro-preview
+  litellm_params:
+    model: openrouter/google/gemini-2.5-pro-preview
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-distill-qwen-7b
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-distill-qwen-7b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-0528-qwen3-8b-free
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-0528-qwen3-8b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-0528-qwen3-8b
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-0528-qwen3-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-0528-free
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-0528:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-0528
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-0528
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: sarvamai-sarvam-m-free
+  litellm_params:
+    model: openrouter/sarvamai/sarvam-m:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thedrummer-valkyrie-49b-v1
+  litellm_params:
+    model: openrouter/thedrummer/valkyrie-49b-v1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-sonnet-4
+  litellm_params:
+    model: openrouter/anthropic/claude-sonnet-4
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-devstral-small-2505-free
+  litellm_params:
+    model: openrouter/mistralai/devstral-small-2505:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-devstral-small-2505
+  litellm_params:
+    model: openrouter/mistralai/devstral-small-2505
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-3n-e4b-it-free
+  litellm_params:
+    model: openrouter/google/gemma-3n-e4b-it:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-3n-e4b-it
+  litellm_params:
+    model: openrouter/google/gemma-3n-e4b-it
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-codex-mini
+  litellm_params:
+    model: openrouter/openai/codex-mini
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nousresearch-deephermes-3-mistral-24b-preview
+  litellm_params:
+    model: openrouter/nousresearch/deephermes-3-mistral-24b-preview
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-medium-3
+  litellm_params:
+    model: openrouter/mistralai/mistral-medium-3
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-2.5-pro-preview-05-06
+  litellm_params:
+    model: openrouter/google/gemini-2.5-pro-preview-05-06
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: arcee-ai-spotlight
+  litellm_params:
+    model: openrouter/arcee-ai/spotlight
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: arcee-ai-maestro-reasoning
+  litellm_params:
+    model: openrouter/arcee-ai/maestro-reasoning
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: arcee-ai-virtuoso-large
+  litellm_params:
+    model: openrouter/arcee-ai/virtuoso-large
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: arcee-ai-coder-large
+  litellm_params:
+    model: openrouter/arcee-ai/coder-large
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: microsoft-phi-4-reasoning-plus
+  litellm_params:
+    model: openrouter/microsoft/phi-4-reasoning-plus
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: inception-mercury-coder
+  litellm_params:
+    model: openrouter/inception/mercury-coder
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-4b-free
+  litellm_params:
+    model: openrouter/qwen/qwen3-4b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: opengvlab-internvl3-14b
+  litellm_params:
+    model: openrouter/opengvlab/internvl3-14b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-prover-v2
+  litellm_params:
+    model: openrouter/deepseek/deepseek-prover-v2
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-guard-4-12b
+  litellm_params:
+    model: openrouter/meta-llama/llama-guard-4-12b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-30b-a3b-free
+  litellm_params:
+    model: openrouter/qwen/qwen3-30b-a3b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-30b-a3b
+  litellm_params:
+    model: openrouter/qwen/qwen3-30b-a3b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-8b-free
+  litellm_params:
+    model: openrouter/qwen/qwen3-8b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-8b
+  litellm_params:
+    model: openrouter/qwen/qwen3-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-14b-free
+  litellm_params:
+    model: openrouter/qwen/qwen3-14b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-14b
+  litellm_params:
+    model: openrouter/qwen/qwen3-14b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-32b
+  litellm_params:
+    model: openrouter/qwen/qwen3-32b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-235b-a22b-free
+  litellm_params:
+    model: openrouter/qwen/qwen3-235b-a22b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen3-235b-a22b
+  litellm_params:
+    model: openrouter/qwen/qwen3-235b-a22b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: tngtech-deepseek-r1t-chimera-free
+  litellm_params:
+    model: openrouter/tngtech/deepseek-r1t-chimera:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: microsoft-mai-ds-r1-free
+  litellm_params:
+    model: openrouter/microsoft/mai-ds-r1:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: microsoft-mai-ds-r1
+  litellm_params:
+    model: openrouter/microsoft/mai-ds-r1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thudm-glm-z1-32b-free
+  litellm_params:
+    model: openrouter/thudm/glm-z1-32b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thudm-glm-z1-32b
+  litellm_params:
+    model: openrouter/thudm/glm-z1-32b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thudm-glm-4-32b-free
+  litellm_params:
+    model: openrouter/thudm/glm-4-32b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thudm-glm-4-32b
+  litellm_params:
+    model: openrouter/thudm/glm-4-32b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-o4-mini-high
+  litellm_params:
+    model: openrouter/openai/o4-mini-high
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-o3
+  litellm_params:
+    model: openrouter/openai/o3
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-o4-mini
+  litellm_params:
+    model: openrouter/openai/o4-mini
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: shisa-ai-shisa-v2-llama3.3-70b-free
+  litellm_params:
+    model: openrouter/shisa-ai/shisa-v2-llama3.3-70b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: shisa-ai-shisa-v2-llama3.3-70b
+  litellm_params:
+    model: openrouter/shisa-ai/shisa-v2-llama3.3-70b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4.1
+  litellm_params:
+    model: openrouter/openai/gpt-4.1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4.1-mini
+  litellm_params:
+    model: openrouter/openai/gpt-4.1-mini
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4.1-nano
+  litellm_params:
+    model: openrouter/openai/gpt-4.1-nano
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: eleutherai-llemma_7b
+  litellm_params:
+    model: openrouter/eleutherai/llemma_7b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: alfredpros-codellama-7b-instruct-solidity
+  litellm_params:
+    model: openrouter/alfredpros/codellama-7b-instruct-solidity
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: arliai-qwq-32b-arliai-rpr-v1-free
+  litellm_params:
+    model: openrouter/arliai/qwq-32b-arliai-rpr-v1:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: arliai-qwq-32b-arliai-rpr-v1
+  litellm_params:
+    model: openrouter/arliai/qwq-32b-arliai-rpr-v1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: agentica-org-deepcoder-14b-preview-free
+  litellm_params:
+    model: openrouter/agentica-org/deepcoder-14b-preview:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: agentica-org-deepcoder-14b-preview
+  litellm_params:
+    model: openrouter/agentica-org/deepcoder-14b-preview
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: moonshotai-kimi-vl-a3b-thinking-free
+  litellm_params:
+    model: openrouter/moonshotai/kimi-vl-a3b-thinking:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: moonshotai-kimi-vl-a3b-thinking
+  litellm_params:
+    model: openrouter/moonshotai/kimi-vl-a3b-thinking
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nvidia-llama-3.3-nemotron-super-49b-v1
+  litellm_params:
+    model: openrouter/nvidia/llama-3.3-nemotron-super-49b-v1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nvidia-llama-3.1-nemotron-ultra-253b-v1-free
+  litellm_params:
+    model: openrouter/nvidia/llama-3.1-nemotron-ultra-253b-v1:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nvidia-llama-3.1-nemotron-ultra-253b-v1
+  litellm_params:
+    model: openrouter/nvidia/llama-3.1-nemotron-ultra-253b-v1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-4-maverick
+  litellm_params:
+    model: openrouter/meta-llama/llama-4-maverick
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-4-scout
+  litellm_params:
+    model: openrouter/meta-llama/llama-4-scout
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-v3-base
+  litellm_params:
+    model: openrouter/deepseek/deepseek-v3-base
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: scb10x-llama3.1-typhoon2-70b-instruct
+  litellm_params:
+    model: openrouter/scb10x/llama3.1-typhoon2-70b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen2.5-vl-32b-instruct-free
+  litellm_params:
+    model: openrouter/qwen/qwen2.5-vl-32b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen2.5-vl-32b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen2.5-vl-32b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-chat-v3-0324-free
+  litellm_params:
+    model: openrouter/deepseek/deepseek-chat-v3-0324:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-chat-v3-0324
+  litellm_params:
+    model: openrouter/deepseek/deepseek-chat-v3-0324
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: featherless-qwerky-72b-free
+  litellm_params:
+    model: openrouter/featherless/qwerky-72b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-small-3.1-24b-instruct-free
+  litellm_params:
+    model: openrouter/mistralai/mistral-small-3.1-24b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-small-3.1-24b-instruct
+  litellm_params:
+    model: openrouter/mistralai/mistral-small-3.1-24b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-3-4b-it-free
+  litellm_params:
+    model: openrouter/google/gemma-3-4b-it:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-3-4b-it
+  litellm_params:
+    model: openrouter/google/gemma-3-4b-it
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: ai21-jamba-1.6-large
+  litellm_params:
+    model: openrouter/ai21/jamba-1.6-large
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: ai21-jamba-1.6-mini
+  litellm_params:
+    model: openrouter/ai21/jamba-1.6-mini
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-3-12b-it-free
+  litellm_params:
+    model: openrouter/google/gemma-3-12b-it:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-3-12b-it
+  litellm_params:
+    model: openrouter/google/gemma-3-12b-it
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cohere-command-a
+  litellm_params:
+    model: openrouter/cohere/command-a
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4o-mini-search-preview
+  litellm_params:
+    model: openrouter/openai/gpt-4o-mini-search-preview
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4o-search-preview
+  litellm_params:
+    model: openrouter/openai/gpt-4o-search-preview
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: rekaai-reka-flash-3-free
+  litellm_params:
+    model: openrouter/rekaai/reka-flash-3:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-3-27b-it-free
+  litellm_params:
+    model: openrouter/google/gemma-3-27b-it:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-3-27b-it
+  litellm_params:
+    model: openrouter/google/gemma-3-27b-it
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thedrummer-anubis-pro-105b-v1
+  litellm_params:
+    model: openrouter/thedrummer/anubis-pro-105b-v1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thedrummer-skyfall-36b-v2
+  litellm_params:
+    model: openrouter/thedrummer/skyfall-36b-v2
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: microsoft-phi-4-multimodal-instruct
+  litellm_params:
+    model: openrouter/microsoft/phi-4-multimodal-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: perplexity-sonar-reasoning-pro
+  litellm_params:
+    model: openrouter/perplexity/sonar-reasoning-pro
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: perplexity-sonar-pro
+  litellm_params:
+    model: openrouter/perplexity/sonar-pro
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: perplexity-sonar-deep-research
+  litellm_params:
+    model: openrouter/perplexity/sonar-deep-research
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwq-32b-free
+  litellm_params:
+    model: openrouter/qwen/qwq-32b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwq-32b
+  litellm_params:
+    model: openrouter/qwen/qwq-32b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nousresearch-deephermes-3-llama-3-8b-preview-free
+  litellm_params:
+    model: openrouter/nousresearch/deephermes-3-llama-3-8b-preview:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-2.0-flash-lite-001
+  litellm_params:
+    model: openrouter/google/gemini-2.0-flash-lite-001
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3.7-sonnet
+  litellm_params:
+    model: openrouter/anthropic/claude-3.7-sonnet
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3.7-sonnet-thinking
+  litellm_params:
+    model: openrouter/anthropic/claude-3.7-sonnet:thinking
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3.7-sonnet-beta
+  litellm_params:
+    model: openrouter/anthropic/claude-3.7-sonnet:beta
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: perplexity-r1-1776
+  litellm_params:
+    model: openrouter/perplexity/r1-1776
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-saba
+  litellm_params:
+    model: openrouter/mistralai/mistral-saba
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cognitivecomputations-dolphin3.0-r1-mistral-24b-free
+  litellm_params:
+    model: openrouter/cognitivecomputations/dolphin3.0-r1-mistral-24b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cognitivecomputations-dolphin3.0-r1-mistral-24b
+  litellm_params:
+    model: openrouter/cognitivecomputations/dolphin3.0-r1-mistral-24b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cognitivecomputations-dolphin3.0-mistral-24b-free
+  litellm_params:
+    model: openrouter/cognitivecomputations/dolphin3.0-mistral-24b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-guard-3-8b
+  litellm_params:
+    model: openrouter/meta-llama/llama-guard-3-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-o3-mini-high
+  litellm_params:
+    model: openrouter/openai/o3-mini-high
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-distill-llama-8b
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-distill-llama-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-2.0-flash-001
+  litellm_params:
+    model: openrouter/google/gemini-2.0-flash-001
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-vl-plus
+  litellm_params:
+    model: openrouter/qwen/qwen-vl-plus
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: aion-labs-aion-1.0
+  litellm_params:
+    model: openrouter/aion-labs/aion-1.0
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: aion-labs-aion-1.0-mini
+  litellm_params:
+    model: openrouter/aion-labs/aion-1.0-mini
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: aion-labs-aion-rp-llama-3.1-8b
+  litellm_params:
+    model: openrouter/aion-labs/aion-rp-llama-3.1-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-vl-max
+  litellm_params:
+    model: openrouter/qwen/qwen-vl-max
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-turbo
+  litellm_params:
+    model: openrouter/qwen/qwen-turbo
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen2.5-vl-72b-instruct-free
+  litellm_params:
+    model: openrouter/qwen/qwen2.5-vl-72b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen2.5-vl-72b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen2.5-vl-72b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-plus
+  litellm_params:
+    model: openrouter/qwen/qwen-plus
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-max
+  litellm_params:
+    model: openrouter/qwen/qwen-max
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-o3-mini
+  litellm_params:
+    model: openrouter/openai/o3-mini
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-distill-qwen-1.5b
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-distill-qwen-1.5b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-small-24b-instruct-2501-free
+  litellm_params:
+    model: openrouter/mistralai/mistral-small-24b-instruct-2501:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-small-24b-instruct-2501
+  litellm_params:
+    model: openrouter/mistralai/mistral-small-24b-instruct-2501
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-distill-qwen-32b
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-distill-qwen-32b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-distill-qwen-14b-free
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-distill-qwen-14b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-distill-qwen-14b
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-distill-qwen-14b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: perplexity-sonar-reasoning
+  litellm_params:
+    model: openrouter/perplexity/sonar-reasoning
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: perplexity-sonar
+  litellm_params:
+    model: openrouter/perplexity/sonar
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: liquid-lfm-7b
+  litellm_params:
+    model: openrouter/liquid/lfm-7b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: liquid-lfm-3b
+  litellm_params:
+    model: openrouter/liquid/lfm-3b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-distill-llama-70b-free
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-distill-llama-70b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-distill-llama-70b
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1-distill-llama-70b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1-free
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-r1
+  litellm_params:
+    model: openrouter/deepseek/deepseek-r1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: minimax-minimax-01
+  litellm_params:
+    model: openrouter/minimax/minimax-01
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-codestral-2501
+  litellm_params:
+    model: openrouter/mistralai/codestral-2501
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: microsoft-phi-4
+  litellm_params:
+    model: openrouter/microsoft/phi-4
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: deepseek-deepseek-chat
+  litellm_params:
+    model: openrouter/deepseek/deepseek-chat
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: sao10k-l3.3-euryale-70b
+  litellm_params:
+    model: openrouter/sao10k/l3.3-euryale-70b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: x-ai-grok-2-vision-1212
+  litellm_params:
+    model: openrouter/x-ai/grok-2-vision-1212
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: x-ai-grok-2-1212
+  litellm_params:
+    model: openrouter/x-ai/grok-2-1212
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cohere-command-r7b-12-2024
+  litellm_params:
+    model: openrouter/cohere/command-r7b-12-2024
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.3-70b-instruct-free
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.3-70b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.3-70b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.3-70b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: amazon-nova-lite-v1
+  litellm_params:
+    model: openrouter/amazon/nova-lite-v1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: amazon-nova-micro-v1
+  litellm_params:
+    model: openrouter/amazon/nova-micro-v1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: amazon-nova-pro-v1
+  litellm_params:
+    model: openrouter/amazon/nova-pro-v1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwq-32b-preview
+  litellm_params:
+    model: openrouter/qwen/qwq-32b-preview
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4o-2024-11-20
+  litellm_params:
+    model: openrouter/openai/gpt-4o-2024-11-20
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-large-2411
+  litellm_params:
+    model: openrouter/mistralai/mistral-large-2411
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-large-2407
+  litellm_params:
+    model: openrouter/mistralai/mistral-large-2407
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-pixtral-large-2411
+  litellm_params:
+    model: openrouter/mistralai/pixtral-large-2411
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: infermatic-mn-inferor-12b
+  litellm_params:
+    model: openrouter/infermatic/mn-inferor-12b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-2.5-coder-32b-instruct-free
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-coder-32b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-2.5-coder-32b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-coder-32b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: raifle-sorcererlm-8x22b
+  litellm_params:
+    model: openrouter/raifle/sorcererlm-8x22b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thedrummer-unslopnemo-12b
+  litellm_params:
+    model: openrouter/thedrummer/unslopnemo-12b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3.5-haiku-20241022
+  litellm_params:
+    model: openrouter/anthropic/claude-3.5-haiku-20241022
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3.5-haiku-beta
+  litellm_params:
+    model: openrouter/anthropic/claude-3.5-haiku:beta
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3.5-haiku
+  litellm_params:
+    model: openrouter/anthropic/claude-3.5-haiku
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3.5-sonnet-beta
+  litellm_params:
+    model: openrouter/anthropic/claude-3.5-sonnet:beta
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3.5-sonnet
+  litellm_params:
+    model: openrouter/anthropic/claude-3.5-sonnet
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthracite-org-magnum-v4-72b
+  litellm_params:
+    model: openrouter/anthracite-org/magnum-v4-72b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-ministral-8b
+  litellm_params:
+    model: openrouter/mistralai/ministral-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-ministral-3b
+  litellm_params:
+    model: openrouter/mistralai/ministral-3b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-2.5-7b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-7b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nvidia-llama-3.1-nemotron-70b-instruct
+  litellm_params:
+    model: openrouter/nvidia/llama-3.1-nemotron-70b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: inflection-inflection-3-productivity
+  litellm_params:
+    model: openrouter/inflection/inflection-3-productivity
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: inflection-inflection-3-pi
+  litellm_params:
+    model: openrouter/inflection/inflection-3-pi
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-flash-1.5-8b
+  litellm_params:
+    model: openrouter/google/gemini-flash-1.5-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthracite-org-magnum-v2-72b
+  litellm_params:
+    model: openrouter/anthracite-org/magnum-v2-72b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: thedrummer-rocinante-12b
+  litellm_params:
+    model: openrouter/thedrummer/rocinante-12b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: liquid-lfm-40b
+  litellm_params:
+    model: openrouter/liquid/lfm-40b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.2-3b-instruct-free
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.2-3b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.2-3b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.2-3b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.2-11b-vision-instruct-free
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.2-11b-vision-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.2-11b-vision-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.2-11b-vision-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.2-90b-vision-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.2-90b-vision-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.2-1b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.2-1b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-2.5-72b-instruct-free
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-72b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-2.5-72b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-72b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: neversleep-llama-3.1-lumimaid-8b
+  litellm_params:
+    model: openrouter/neversleep/llama-3.1-lumimaid-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-o1-mini
+  litellm_params:
+    model: openrouter/openai/o1-mini
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-o1-mini-2024-09-12
+  litellm_params:
+    model: openrouter/openai/o1-mini-2024-09-12
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-pixtral-12b
+  litellm_params:
+    model: openrouter/mistralai/pixtral-12b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cohere-command-r-plus-08-2024
+  litellm_params:
+    model: openrouter/cohere/command-r-plus-08-2024
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cohere-command-r-08-2024
+  litellm_params:
+    model: openrouter/cohere/command-r-08-2024
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-2.5-vl-7b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen-2.5-vl-7b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: sao10k-l3.1-euryale-70b
+  litellm_params:
+    model: openrouter/sao10k/l3.1-euryale-70b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: microsoft-phi-3.5-mini-128k-instruct
+  litellm_params:
+    model: openrouter/microsoft/phi-3.5-mini-128k-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nousresearch-hermes-3-llama-3.1-70b
+  litellm_params:
+    model: openrouter/nousresearch/hermes-3-llama-3.1-70b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nousresearch-hermes-3-llama-3.1-405b
+  litellm_params:
+    model: openrouter/nousresearch/hermes-3-llama-3.1-405b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-chatgpt-4o-latest
+  litellm_params:
+    model: openrouter/openai/chatgpt-4o-latest
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: sao10k-l3-lunaris-8b
+  litellm_params:
+    model: openrouter/sao10k/l3-lunaris-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4o-2024-08-06
+  litellm_params:
+    model: openrouter/openai/gpt-4o-2024-08-06
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.1-405b
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.1-405b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nothingiisreal-mn-celeste-12b
+  litellm_params:
+    model: openrouter/nothingiisreal/mn-celeste-12b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.1-405b-instruct-free
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.1-405b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.1-405b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.1-405b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.1-8b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.1-8b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3.1-70b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.1-70b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-nemo-free
+  litellm_params:
+    model: openrouter/mistralai/mistral-nemo:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-nemo
+  litellm_params:
+    model: openrouter/mistralai/mistral-nemo
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4o-mini
+  litellm_params:
+    model: openrouter/openai/gpt-4o-mini
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4o-mini-2024-07-18
+  litellm_params:
+    model: openrouter/openai/gpt-4o-mini-2024-07-18
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-2-27b-it
+  litellm_params:
+    model: openrouter/google/gemma-2-27b-it
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-2-9b-it-free
+  litellm_params:
+    model: openrouter/google/gemma-2-9b-it:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemma-2-9b-it
+  litellm_params:
+    model: openrouter/google/gemma-2-9b-it
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3.5-sonnet-20240620-beta
+  litellm_params:
+    model: openrouter/anthropic/claude-3.5-sonnet-20240620:beta
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3.5-sonnet-20240620
+  litellm_params:
+    model: openrouter/anthropic/claude-3.5-sonnet-20240620
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: sao10k-l3-euryale-70b
+  litellm_params:
+    model: openrouter/sao10k/l3-euryale-70b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cognitivecomputations-dolphin-mixtral-8x22b
+  litellm_params:
+    model: openrouter/cognitivecomputations/dolphin-mixtral-8x22b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: qwen-qwen-2-72b-instruct
+  litellm_params:
+    model: openrouter/qwen/qwen-2-72b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-7b-instruct-v0.3
+  litellm_params:
+    model: openrouter/mistralai/mistral-7b-instruct-v0.3
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-7b-instruct-free
+  litellm_params:
+    model: openrouter/mistralai/mistral-7b-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-7b-instruct
+  litellm_params:
+    model: openrouter/mistralai/mistral-7b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nousresearch-hermes-2-pro-llama-3-8b
+  litellm_params:
+    model: openrouter/nousresearch/hermes-2-pro-llama-3-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: microsoft-phi-3-mini-128k-instruct
+  litellm_params:
+    model: openrouter/microsoft/phi-3-mini-128k-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: microsoft-phi-3-medium-128k-instruct
+  litellm_params:
+    model: openrouter/microsoft/phi-3-medium-128k-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: neversleep-llama-3-lumimaid-70b
+  litellm_params:
+    model: openrouter/neversleep/llama-3-lumimaid-70b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-flash-1.5
+  litellm_params:
+    model: openrouter/google/gemini-flash-1.5
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4o-2024-05-13
+  litellm_params:
+    model: openrouter/openai/gpt-4o-2024-05-13
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-4o
+  litellm_params:
+    model: openrouter/openai/gpt-4o
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-guard-2-8b
+  litellm_params:
+    model: openrouter/meta-llama/llama-guard-2-8b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: sao10k-fimbulvetr-11b-v2
+  litellm_params:
+    model: openrouter/sao10k/fimbulvetr-11b-v2
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3-70b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3-70b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: meta-llama-llama-3-8b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3-8b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mixtral-8x22b-instruct
+  litellm_params:
+    model: openrouter/mistralai/mixtral-8x22b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: microsoft-wizardlm-2-8x22b
+  litellm_params:
+    model: openrouter/microsoft/wizardlm-2-8x22b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: google-gemini-pro-1.5
+  litellm_params:
+    model: openrouter/google/gemini-pro-1.5
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cohere-command-r-plus
+  litellm_params:
+    model: openrouter/cohere/command-r-plus
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cohere-command-r-plus-04-2024
+  litellm_params:
+    model: openrouter/cohere/command-r-plus-04-2024
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: sophosympatheia-midnight-rose-70b
+  litellm_params:
+    model: openrouter/sophosympatheia/midnight-rose-70b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cohere-command-r
+  litellm_params:
+    model: openrouter/cohere/command-r
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cohere-command
+  litellm_params:
+    model: openrouter/cohere/command
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3-haiku-beta
+  litellm_params:
+    model: openrouter/anthropic/claude-3-haiku:beta
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: anthropic-claude-3-haiku
+  litellm_params:
+    model: openrouter/anthropic/claude-3-haiku
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: cohere-command-r-03-2024
+  litellm_params:
+    model: openrouter/cohere/command-r-03-2024
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-large
+  litellm_params:
+    model: openrouter/mistralai/mistral-large
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-3.5-turbo-0613
+  litellm_params:
+    model: openrouter/openai/gpt-3.5-turbo-0613
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: nousresearch-nous-hermes-2-mixtral-8x7b-dpo
+  litellm_params:
+    model: openrouter/nousresearch/nous-hermes-2-mixtral-8x7b-dpo
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-small
+  litellm_params:
+    model: openrouter/mistralai/mistral-small
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-tiny
+  litellm_params:
+    model: openrouter/mistralai/mistral-tiny
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-7b-instruct-v0.2
+  litellm_params:
+    model: openrouter/mistralai/mistral-7b-instruct-v0.2
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mixtral-8x7b-instruct
+  litellm_params:
+    model: openrouter/mistralai/mixtral-8x7b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: neversleep-noromaid-20b
+  litellm_params:
+    model: openrouter/neversleep/noromaid-20b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: undi95-toppy-m-7b
+  litellm_params:
+    model: openrouter/undi95/toppy-m-7b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openrouter-auto
+  litellm_params:
+    model: openrouter/openrouter/auto
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-3.5-turbo-instruct
+  litellm_params:
+    model: openrouter/openai/gpt-3.5-turbo-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: mistralai-mistral-7b-instruct-v0.1
+  litellm_params:
+    model: openrouter/mistralai/mistral-7b-instruct-v0.1
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: pygmalionai-mythalion-13b
+  litellm_params:
+    model: openrouter/pygmalionai/mythalion-13b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-3.5-turbo-16k
+  litellm_params:
+    model: openrouter/openai/gpt-3.5-turbo-16k
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: undi95-remm-slerp-l2-13b
+  litellm_params:
+    model: openrouter/undi95/remm-slerp-l2-13b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: gryphe-mythomax-l2-13b
+  litellm_params:
+    model: openrouter/gryphe/mythomax-l2-13b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+- model_name: openai-gpt-3.5-turbo
+  litellm_params:
+    model: openrouter/openai/gpt-3.5-turbo
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+general_settings:
+  user_header_name: X-OpenWebUI-User-Id
+  database_url: null
+  master_key: os.environ/LITELLM_MASTER_KEY
+  health_check_interval: 300
+litellm_settings:
+  drop_params: true
+  set_verbose: false
+  request_timeout: 600
