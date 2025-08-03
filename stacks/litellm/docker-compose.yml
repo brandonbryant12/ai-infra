@@ -6,10 +6,15 @@ services:
     networks:
       - llmnet
     volumes:
-      - ./config.yaml:/app/config.yaml:ro
+      - ./update-models.py:/app/update-models.py:ro
+      - ./requirements.txt:/app/requirements.txt:ro
+      - ./startup.sh:/app/startup.sh:ro
+      - ./config.yaml:/app/config.yaml:rw
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
-    command: --config /app/config.yaml --port 4000 --detailed_debug
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-admin-key-12345}
+      - CONFIG_PATH=/app/config.yaml
+    entrypoint: ["/bin/bash", "/app/startup.sh"]
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
