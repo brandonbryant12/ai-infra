@@ -1,0 +1,19 @@
+services:
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    # OpenWebUI listens on 8080 in-container; expose on configurable host port
+    ports:
+      - "${OPENWEBUI_PORT:-3000}:8080"
+    networks:
+      - llmnet
+    volumes:
+      # persists chats, users, settings
+      - open-webui:/app/backend/data
+    restart: unless-stopped
+
+networks:
+  llmnet:
+    external: true
+
+volumes:
+  open-webui:
