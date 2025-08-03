@@ -12,6 +12,8 @@ services:
     environment:
       # Disable signups for production
       - ENABLE_SIGNUP=false
+      # Forward user info as headers to downstream APIs
+      - ENABLE_FORWARD_USER_INFO_HEADERS=true
     restart: unless-stopped
 
 networks:
