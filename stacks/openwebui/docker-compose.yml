@@ -1,6 +1,7 @@
 services:
   openwebui:
     image: ghcr.io/open-webui/open-webui:main
+    container_name: openwebui
     # OpenWebUI listens on 8080 in-container; expose on configurable host port
     ports:
       - "${OPENWEBUI_PORT:-3000}:8080"
@@ -11,9 +12,21 @@ services:
       - open-webui:/app/backend/data
     environment:
       # Disable signups for production
-      - ENABLE_SIGNUP=false
+      - ENABLE_SIGNUP=${ENABLE_SIGNUP:-false}
       # Forward user info as headers to downstream APIs
       - ENABLE_FORWARD_USER_INFO_HEADERS=true
+      # Required secret key for backend authentication
+      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
+      # LiteLLM gateway integration
+      - OPENAI_API_BASE_URL=http://litellm:4000/v1
+      - OPENAI_API_KEY=${LITELLM_MASTER_KEY:-sk-1234567890abcdef}
+      # Reverse proxy configuration
+      - WEBUI_URL=${WEBUI_URL}
+      - WEBUI_BASE_PATH=${WEBUI_BASE_PATH}
+      - WEBUI_BASE_URL=${WEBUI_BASE_URL}
+      - WEBUI_FRONTEND_BASE=${WEBUI_FRONTEND_BASE}
+    extra_hosts:
+      - host.docker.internal:host-gateway
     restart: unless-stopped
 
 networks:
