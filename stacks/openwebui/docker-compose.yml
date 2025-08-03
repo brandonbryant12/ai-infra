@@ -10,8 +10,8 @@ services:
       # persists chats, users, settings
       - open-webui:/app/backend/data
     environment:
-      # Enable signups temporarily for testing
-      - ENABLE_SIGNUP=true
+      # Disable signups for production
+      - ENABLE_SIGNUP=false
     restart: unless-stopped
 
 networks:
