@@ -7,8 +7,10 @@ This project provides Docker-based infrastructure for self-hosted AI application
 ## Features
 
 - **OpenWebUI Stack**: Complete Docker setup for OpenWebUI with persistent data and user header forwarding
-- **LiteLLM Gateway**: OpenAI-compatible API gateway with OpenRouter integration
-- **Easy Management**: Makefile commands for common operations
+- **LiteLLM Gateway**: OpenAI-compatible API gateway with dynamic OpenRouter integration (295+ models)
+- **Central Management**: Unified Makefile for managing all services
+- **Automatic Updates**: Pull latest code and restart with one command
+- **Jinja2 Templating**: Dynamic configuration with environment variables
 - **Network Ready**: External Docker network for cross-stack communication
 - **Production Ready**: Proper security defaults and configuration
 
@@ -17,26 +19,66 @@ This project provides Docker-based infrastructure for self-hosted AI application
 ### Prerequisites
 
 - Docker and Docker Compose
-- Make (optional, for convenient commands)
+- Git (for updates)
 
 ### Quick Start
 
 ```bash
-# Create external network (run once)
-docker network create llmnet
+# Clone the repository
+git clone https://github.com/brandonbryant12/ai-infra.git
+cd ai-infra
 
-# Start OpenWebUI
-make owui-up
+# Run setup script (first time only)
+./scripts/setup.sh
 
-# Start LiteLLM Gateway (requires OpenRouter API key)
-cp stacks/litellm/.env.sample stacks/litellm/.env
-# Edit .env with your OpenRouter API key
-make litellm-up
+# Edit environment files
+vim stacks/openwebui/.env    # Set WEBUI_SECRET_KEY
+vim stacks/litellm/.env      # Set OPENROUTER_API_KEY
 
-# View logs
-make owui-logs
-make litellm-logs
+# Start all services
+make start
+
+# Check status
+make status
 ```
+
+## Central Management Commands
+
+The repository includes a central Makefile for managing all services:
+
+```bash
+# Core Commands
+make help          # Show all available commands
+make update        # Pull latest code and restart all services
+make start         # Start all services
+make stop          # Stop all services
+make restart       # Restart all services
+make status        # Show status of all services
+make logs          # Stream logs from all services
+
+# Maintenance Commands
+make pull          # Pull latest Docker images
+make rebuild       # Rebuild all services from scratch
+make clean         # Clean up containers and unused resources
+make check-env     # Check environment setup
+
+# Individual Service Commands
+make owui-*        # OpenWebUI-specific commands
+make litellm-*     # LiteLLM-specific commands
+```
+
+### Automatic Updates
+
+To update your deployment with the latest changes:
+
+```bash
+make update
+```
+
+This command will:
+1. Pull the latest code from the main branch
+2. Restart all services with the new configuration
+3. Show the status of all services
 
 ## Available Stacks
 
