@@ -1,0 +1,52 @@
+model_list:
+{% for model in models %}
+- model_name: {{ model.name }}
+  litellm_params:
+    model: openrouter/{{ model.id }}
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+{% if model.context_length %}
+    max_tokens: {{ model.max_completion_tokens or (model.context_length // 4) }}
+{% endif %}
+{% endfor %}
+
+general_settings:
+  # Parse user info from OpenWebUI headers
+  user_header_name: X-OpenWebUI-User-Id
+  
+  # No database required for simple gateway
+  database_url: null
+  
+  # Master key for admin access
+  master_key: os.environ/LITELLM_MASTER_KEY
+  
+  # Enable health checks
+  health_check_interval: 300
+
+litellm_settings:
+  # Drop unsupported parameters
+  drop_params: true
+  
+  # Basic logging
+  set_verbose: {{ verbose | default(false) | lower }}
+  
+  # Request timeout
+  request_timeout: {{ request_timeout | default(600) }}
+  
+  # Enable caching if specified
+{% if enable_caching %}
+  cache: true
+  cache_type: redis
+  redis_host: {{ redis_host | default('localhost') }}
+  redis_port: {{ redis_port | default(6379) }}
+{% endif %}
+
+# Optional router settings
+{% if enable_fallbacks %}
+router_settings:
+  routing_strategy: simple-shuffle
+  model_group_alias:
+{% for group in model_groups %}
+    {{ group.alias }}: {{ group.models | join(', ') }}
+{% endfor %}
+{% endif %}

@@ -107,45 +107,66 @@ class OpenRouterModelSync:
         logger.info(f"Filtered to {len(filtered_models)} suitable models")
         return filtered_models
     
-    def generate_litellm_config(self, models: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Generate LiteLLM configuration from OpenRouter models"""
-        model_list = []
+    def generate_template_data(self, models: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Generate template data for Jinja2 rendering"""
+        processed_models = []
         
         for model in models:
             model_id = model.get("id", "")
             model_name = model.get("name", "")
+            architecture = model.get("architecture", {})
+            top_provider = model.get("top_provider", {})
             
             # Create a clean model name for LiteLLM
             clean_name = model_id.replace("/", "-").replace(":", "-")
             
-            model_config = {
-                "model_name": clean_name,
-                "litellm_params": {
-                    "model": f"openrouter/{model_id}",
-                    "api_key": "os.environ/OPENROUTER_API_KEY",
-                    "api_base": "https://openrouter.ai/api/v1"
-                }
+            processed_model = {
+                "id": model_id,
+                "name": clean_name,
+                "display_name": model_name,
+                "context_length": architecture.get("context_length") or top_provider.get("context_length"),
+                "max_completion_tokens": top_provider.get("max_completion_tokens"),
+                "modality": architecture.get("modality", "text->text"),
+                "pricing": model.get("pricing", {}),
+                "is_free": float(model.get("pricing", {}).get("prompt", "0")) == 0.0
             }
             
-            model_list.append(model_config)
+            processed_models.append(processed_model)
         
-        # Base configuration
-        config = {
-            "model_list": model_list,
-            "general_settings": {
-                "user_header_name": "X-OpenWebUI-User-Id",
-                "database_url": None,
-                "master_key": "os.environ/LITELLM_MASTER_KEY",
-                "health_check_interval": 300
-            },
-            "litellm_settings": {
-                "drop_params": True,
-                "set_verbose": False,
-                "request_timeout": 600
-            }
+        # Template data with configuration options
+        template_data = {
+            "models": processed_models,
+            "verbose": os.getenv("LITELLM_VERBOSE", "false").lower() == "true",
+            "request_timeout": int(os.getenv("LITELLM_REQUEST_TIMEOUT", "600")),
+            "enable_caching": os.getenv("LITELLM_ENABLE_CACHING", "false").lower() == "true",
+            "redis_host": os.getenv("REDIS_HOST", "localhost"),
+            "redis_port": int(os.getenv("REDIS_PORT", "6379")),
+            "enable_fallbacks": os.getenv("LITELLM_ENABLE_FALLBACKS", "false").lower() == "true",
+            "model_groups": self._create_model_groups(processed_models)
         }
         
-        return config
+        return template_data
+    
+    def _create_model_groups(self, models: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Create logical model groups for routing"""
+        groups = []
+        
+        # Group by provider
+        providers = {}
+        for model in models:
+            provider = model["id"].split("/")[0]
+            if provider not in providers:
+                providers[provider] = []
+            providers[provider].append(model["name"])
+        
+        for provider, model_names in providers.items():
+            if len(model_names) > 1:  # Only create groups with multiple models
+                groups.append({
+                    "alias": f"{provider}-models",
+                    "models": model_names[:5]  # Limit to 5 models per group
+                })
+        
+        return groups
     
     def backup_existing_config(self):
         """Create a backup of the existing config"""
@@ -160,19 +181,55 @@ class OpenRouterModelSync:
             except Exception as e:
                 logger.warning(f"Failed to create backup: {e}")
     
-    def write_config(self, config: Dict[str, Any]):
-        """Write the new configuration to file"""
+    def write_template_data(self, template_data: Dict[str, Any]):
+        """Write template data to JSON file for Jinja2 CLI"""
         try:
             # Ensure directory exists
             os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
             
-            with open(self.config_path, 'w') as f:
-                yaml.dump(config, f, default_flow_style=False, sort_keys=False, indent=2)
+            # Write template data as JSON
+            data_path = "/app/template_data.json"
+            with open(data_path, 'w') as f:
+                json.dump(template_data, f, indent=2, default=str)
             
-            logger.info(f"Updated LiteLLM config with {len(config['model_list'])} models")
+            logger.info(f"Generated template data with {len(template_data['models'])} models")
+            return data_path
             
         except Exception as e:
-            raise ModelSyncError(f"Failed to write config file: {e}")
+            raise ModelSyncError(f"Failed to write template data: {e}")
+    
+    def render_config_with_jinja2(self, data_path: str):
+        """Render config using Jinja2 CLI"""
+        import subprocess
+        
+        try:
+            template_path = "/app/config.yaml.j2"
+            
+            # Use jinja2 CLI to render the template
+            cmd = [
+                "jinja2",
+                template_path,
+                data_path,
+                "--format", "json"
+            ]
+            
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            
+            # Write rendered config
+            with open(self.config_path, 'w') as f:
+                f.write(result.stdout)
+            
+            logger.info(f"Rendered config to {self.config_path}")
+            
+        except subprocess.CalledProcessError as e:
+            raise ModelSyncError(f"Jinja2 rendering failed: {e.stderr}")
+        except Exception as e:
+            raise ModelSyncError(f"Failed to render config: {e}")
     
     def validate_config(self) -> bool:
         """Validate the generated config file"""
@@ -196,7 +253,7 @@ class OpenRouterModelSync:
     def run_sync(self):
         """Main sync process"""
         try:
-            logger.info("Starting OpenRouter model sync...")
+            logger.info("Starting OpenRouter model sync with Jinja2 templating...")
             
             # Fetch models from OpenRouter
             all_models = self.fetch_openrouter_models()
@@ -207,14 +264,15 @@ class OpenRouterModelSync:
             if not filtered_models:
                 raise ModelSyncError("No suitable models found after filtering")
             
-            # Generate config
-            config = self.generate_litellm_config(filtered_models)
+            # Generate template data
+            template_data = self.generate_template_data(filtered_models)
             
             # Backup existing config
             self.backup_existing_config()
             
-            # Write new config
-            self.write_config(config)
+            # Write template data and render config with Jinja2
+            data_path = self.write_template_data(template_data)
+            self.render_config_with_jinja2(data_path)
             
             # Validate config
             self.validate_config()
@@ -225,7 +283,9 @@ class OpenRouterModelSync:
             print(f"\n=== SYNC SUMMARY ===")
             print(f"Total models available: {len(all_models)}")
             print(f"Filtered models: {len(filtered_models)}")
-            print(f"Config updated: {self.config_path}")
+            print(f"Template data: {data_path}")
+            print(f"Config rendered: {self.config_path}")
+            print(f"Jinja2 templating: ✅ Enabled")
             print("===================\n")
             
         except ModelSyncError as e:
