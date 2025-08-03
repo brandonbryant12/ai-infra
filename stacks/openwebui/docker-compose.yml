@@ -9,6 +9,9 @@ services:
     volumes:
       # persists chats, users, settings
       - open-webui:/app/backend/data
+    environment:
+      # Disable new user registrations (only admin can create users)
+      - ENABLE_SIGNUP=false
     restart: unless-stopped
 
 networks:
