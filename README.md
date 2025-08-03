@@ -1,104 +1,63 @@
-# AI Infrastructure - LiteLLM Proxy Gateway
+# AI Infrastructure
 
 ## Overview
 
-This project provides infrastructure for managing AI model connections through LiteLLM proxy gateway. It includes scripts and Helm charts to streamline the deployment and configuration of LiteLLM proxy instances.
-
-## Purpose
-
-- **Centralized AI Connection Management**: Manage multiple AI provider connections (OpenAI, Anthropic, etc.) through a single gateway
-- **Easy Configuration**: Simplified scripts for adding new AI connections
-- **Kubernetes Deployment**: Helm charts for deploying LiteLLM proxy to Kubernetes clusters
-- **Single Master Key**: Initial implementation uses a single master key for authentication
-- **No Database**: Lightweight deployment without database dependencies
+This project provides Docker-based infrastructure for self-hosted AI applications, starting with OpenWebUI for local AI model interfaces.
 
 ## Features
 
-- LiteLLM proxy gateway deployment
-- Helm chart configuration for Kubernetes
-- Scripts for managing AI provider connections
-- Single master key authentication
-- Support for multiple AI providers through unified interface
+- **OpenWebUI Stack**: Complete Docker setup for OpenWebUI with persistent data
+- **Easy Management**: Makefile commands for common operations
+- **Network Ready**: External Docker network for cross-stack communication
+- **Production Ready**: Proper security defaults and configuration
 
 ## Getting Started
 
 ### Prerequisites
 
-- Kubernetes cluster
-- Helm 3.x
-- kubectl configured for your cluster
+- Docker and Docker Compose
+- Make (optional, for convenient commands)
 
-### Deployment
+### OpenWebUI Deployment
 
 ```bash
-# Deploy LiteLLM proxy using Helm
-helm install litellm-proxy ./helm/litellm-proxy
+# Create external network (run once)
+docker network create llmnet
 
-# Configure AI connections
-./scripts/add-connection.sh
+# Start OpenWebUI
+make owui-up
+
+# View logs
+make owui-logs
+
+# Stop services
+make owui-down
 ```
+
+## Available Stacks
+
+### OpenWebUI
+- **Location**: `stacks/openwebui/`
+- **Default Port**: 3000 (configurable via OPENWEBUI_PORT)
+- **Features**: Chat interface, user management, model connections
+- **Commands**: `owui-up`, `owui-down`, `owui-logs`, `owui-restart`
 
 ## Configuration
 
-The LiteLLM proxy is configured through:
-- Environment variables for API keys
-- Configuration files for model mappings
-- Helm values for deployment customization
+- Copy `.env.sample` files to `.env` in respective stack directories
+- Adjust ports and settings as needed
+- Signup is disabled by default for security
 
 ## Architecture
 
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│   Client    │────▶│   LiteLLM    │────▶│ AI Providers│
-│Applications │     │    Proxy     │     │  (OpenAI,   │
-└─────────────┘     └──────────────┘     │  Anthropic) │
-                           │              └─────────────┘
+│   Users     │────▶│   OpenWebUI  │────▶│ AI Models   │
+│             │     │   (Port 3000)│     │ (External)  │
+└─────────────┘     └──────────────┘     └─────────────┘
                            │
                     ┌──────▼──────┐
-                    │ Master Key  │
-                    │   Auth      │
+                    │ Persistent  │
+                    │   Storage   │
                     └─────────────┘
 ```
-
-## Roadmap
-
-- [ ] Multi-key authentication support
-- [ ] Database integration for usage tracking
-- [ ] Advanced load balancing
-- [ ] Monitoring and observability
-
-
-  curl -X POST "${OPENWEBUI_API_URL}/api/chat/completions" \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer ${OPENQWEBUI_TOKEN}" \
-    -d '{
-      "model": "gpt-3.5-turbo",
-      "messages": [{"role": "user", "content": "test"}],
-      "stream": false
-    }' \
-    -v
-
-
-    python3 -c "
-  import http.server
-  import socketserver
-  import json
-
-  class HeaderHandler(http.server.BaseHTTPRequestHandler):
-      def do_POST(self):
-          print('=== Headers from Open WebUI ===')
-          for header, value in self.headers.items():
-              print(f'{header}: {value}')
-          print('================================')
-          
-          # Send back a dummy response
-          response = {'choices': [{'message': {'content': 'test response'}}]}
-          self.send_response(200)
-          self.send_header('Content-Type', 'application/json')
-          self.end_headers()
-          self.wfile.write(json.dumps(response).encode())
-          
-  with socketserver.TCPServer(('', 8001), HeaderHandler) as httpd:
-      print('Test server on http://localhost:8001')
-      httpd.serve_forever()
-  "
