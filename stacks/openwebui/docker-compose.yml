@@ -17,7 +17,7 @@ services:
       - ENABLE_FORWARD_USER_INFO_HEADERS=true
       # Required secret key for backend authentication
       - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
-      # LiteLLM gateway integration
+      # LiteLLM gateway integration (using internal Docker network)
       - OPENAI_API_BASE_URL=http://litellm:4000/v1
       - OPENAI_API_KEY=${LITELLM_MASTER_KEY:-admin-key-12345}
       # Public URL (use subdomain)

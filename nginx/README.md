@@ -20,25 +20,16 @@ This directory contains the nginx server configurations for the AI infrastructur
   - WebSocket support
   - Proper forwarded headers for reverse proxy operation
 
-### llm.brandonbryant.io
-- **File**: `sites-available/llm.brandonbryant.io`
-- **Purpose**: LiteLLM API Gateway endpoint
-- **Features**:
-  - Proxy to LiteLLM container API endpoints
-  - SSL/TLS termination
-  - WebSocket support for streaming responses
-  - Authorization header passthrough
-  - Optimized for API traffic with disabled buffering
-
 ### litellm.brandonbryant.io
 - **File**: `sites-available/litellm.brandonbryant.io`
-- **Purpose**: LiteLLM Admin UI
+- **Purpose**: LiteLLM Gateway (API + Admin UI)
 - **Features**:
-  - Proxy to LiteLLM web interface
+  - Proxy to LiteLLM API endpoints and web interface
   - SSL/TLS termination
-  - Static asset caching
+  - Static asset caching for UI
   - Session cookie handling
   - UI authentication support
+  - WebSocket support for streaming API responses
 
 ## Key Configuration Details
 
@@ -68,25 +59,24 @@ server {
 
 * OpenWebUI is served on the **subdomain** `ai.brandonbryant.io`
 * OpenWebUI runs on port 3000 locally (proxied by nginx)
-* LiteLLM API Gateway is served on `llm.brandonbryant.io`
-* LiteLLM Admin UI is served on `litellm.brandonbryant.io`
+* LiteLLM Gateway (API + UI) is served on `litellm.brandonbryant.io`
 * LiteLLM runs on port 4000 locally (proxied by nginx)
 
-## LiteLLM Services
+## LiteLLM Gateway Services (litellm.brandonbryant.io)
 
-### API Gateway (llm.brandonbryant.io)
-- **Endpoint**: `https://llm.brandonbryant.io/v1`
+### API Endpoint
+- **URL**: `https://litellm.brandonbryant.io/v1`
 - **Authentication**: API Key (Bearer token)
 - **Use Case**: OpenAI-compatible API for model access
 
-### Admin UI (litellm.brandonbryant.io)
+### Admin UI
 - **URL**: `https://litellm.brandonbryant.io/ui`
 - **Authentication**: Username/Password (configured in .env)
 - **Features**:
   - API key management
   - Model configuration
   - Usage tracking and spend monitoring
-  - User management
+  - User management (requires database configuration)
 * WebSocket support is enabled for real-time features
 
 ## Installation
