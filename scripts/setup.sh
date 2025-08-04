@@ -43,7 +43,7 @@ if [ ! -f "stacks/openwebui/.env" ]; then
     cp stacks/openwebui/.env.example stacks/openwebui/.env
     echo -e "${YELLOW}⚠️  Please edit stacks/openwebui/.env and set:${NC}"
     echo "   - WEBUI_SECRET_KEY (generate with: openssl rand -hex 32)"
-    echo "   - OPENWEBUI_BASE_URL (your domain or http://localhost:3000)"
+    echo "   - WEBUI_URL (e.g., https://ai.brandonbryant.io for production or http://localhost:3000 for local dev)"
 else
     echo -e "${GREEN}✅ OpenWebUI .env exists${NC}"
 fi
@@ -65,7 +65,7 @@ echo ""
 echo -e "${CYAN}Next steps:${NC}"
 echo "1. Edit the .env files as indicated above"
 echo "2. Run: make start"
-echo "3. Access OpenWebUI at http://localhost:3000"
+echo "3. Access OpenWebUI locally at http://localhost:3000 (dev) or in production at https://ai.brandonbryant.io"
 echo "4. LiteLLM API is available at http://localhost:4000"
 echo ""
 echo -e "${CYAN}Useful commands:${NC}"
