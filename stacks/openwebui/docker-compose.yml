@@ -19,7 +19,7 @@ services:
       - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
       # LiteLLM gateway integration
       - OPENAI_API_BASE_URL=http://litellm:4000/v1
-      - OPENAI_API_KEY=${LITELLM_MASTER_KEY:-sk-1234567890abcdef}
+      - OPENAI_API_KEY=${LITELLM_MASTER_KEY:-admin-key-12345}
       # Public URL (use subdomain)
       - WEBUI_URL=${WEBUI_URL}
     extra_hosts:

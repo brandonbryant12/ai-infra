@@ -22,7 +22,7 @@ services:
     entrypoint: ["/bin/bash", "/app/startup.sh"]
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:4000/health/liveliness"]
       interval: 30s
       timeout: 10s
       retries: 3
