@@ -11,31 +11,28 @@ model_list:
 {% endfor %}
 
 general_settings:
-  # Parse user info from OpenWebUI headers
-  user_header_name: X-OpenWebUI-User-Id
+  # Parse user info from OpenWebUI headers - using email for better tracking
+  user_header_name: X-OpenWebUI-User-Email
   
   # Master key for admin access
   master_key: os.environ/LITELLM_MASTER_KEY
   
   # Enable health checks
   health_check_interval: 300
-  
-  # Langfuse callbacks for tracing
-  success_callback: ["langfuse", "langfuse_user_tracker"]
-  failure_callback: ["langfuse", "langfuse_user_tracker"]
-  
-  # Custom callback path
-  custom_callback_class: "custom_callbacks.LangfuseUserTracker"
 
 litellm_settings:
   # Drop unsupported parameters
   drop_params: true
   
   # Basic logging
-  set_verbose: {{ verbose | default(false) | lower }}
+  set_verbose: true
   
   # Request timeout
   request_timeout: {{ request_timeout | default(600) }}
+  
+  # Langfuse callbacks for tracing
+  success_callback: ["langfuse"]
+  failure_callback: ["langfuse"]
   
   # Enable caching if specified
 {% if enable_caching %}

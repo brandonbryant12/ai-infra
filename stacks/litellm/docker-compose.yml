@@ -29,6 +29,8 @@ services:
       - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY}
       - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY}
       - LANGFUSE_HOST=${LANGFUSE_HOST:-https://langfuse.brandonbryant.io}
+      - LANGFUSE_DEBUG=true
+      - LITELLM_LOG=DEBUG
     entrypoint: ["/bin/bash", "/app/startup.sh"]
     restart: unless-stopped
     healthcheck:

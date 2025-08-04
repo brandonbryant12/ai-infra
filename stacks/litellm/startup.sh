@@ -3,6 +3,9 @@ set -e
 
 echo "=== LiteLLM Startup with OpenRouter Model Sync ==="
 
+# Set Python path to ensure custom modules can be imported
+export PYTHONPATH=/app:$PYTHONPATH
+
 # Install Python dependencies
 echo "Installing Python dependencies..."
 pip install -r /app/requirements.txt
