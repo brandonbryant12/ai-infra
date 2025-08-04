@@ -10,6 +10,8 @@ OPENWEBUI_DIR = stacks/openwebui
 OPENWEBUI_ENV = $(OPENWEBUI_DIR)/.env
 LITELLM_DIR = stacks/litellm
 LITELLM_ENV = $(LITELLM_DIR)/.env
+LANGFUSE_DIR = stacks/langfuse
+LANGFUSE_ENV = $(LANGFUSE_DIR)/.env
 
 # Colors for output
 CYAN := \033[0;36m
@@ -31,6 +33,12 @@ else
     LITELLM_COMPOSE_CMD = docker compose -f $(LITELLM_DIR)/docker-compose.yml --env-file $(LITELLM_ENV)
 endif
 
+ifeq ($(wildcard $(LANGFUSE_ENV)),)
+	LANGFUSE_COMPOSE_CMD = docker compose -f $(LANGFUSE_DIR)/docker-compose.yml
+else
+	LANGFUSE_COMPOSE_CMD = docker compose -f $(LANGFUSE_DIR)/docker-compose.yml --env-file $(LANGFUSE_ENV)
+endif
+
 # All services list
 SERVICES := openwebui litellm
 
@@ -38,6 +46,7 @@ SERVICES := openwebui litellm
 .PHONY: help update pull start stop restart status logs rebuild clean
 .PHONY: owui-up owui-down owui-logs owui-ps owui-restart owui-pull owui-rebuild
 .PHONY: litellm-up litellm-down litellm-logs litellm-ps litellm-restart litellm-pull litellm-rebuild
+.PHONY: langfuse-up langfuse-down langfuse-logs langfuse-ps langfuse-restart langfuse-pull langfuse-rebuild
 .PHONY: network-create check-env
 
 ## Help Command
@@ -51,6 +60,7 @@ help: ## Show this help message
 	@echo "$(GREEN)Service-Specific Commands:$(NC)"
 	@echo "  $(YELLOW)owui-*$(NC)          OpenWebUI commands (up, down, logs, etc.)"
 	@echo "  $(YELLOW)litellm-*$(NC)       LiteLLM commands (up, down, logs, etc.)"
+	@echo "  $(YELLOW)langfuse-*$(NC)       Langfuse commands (up, down, logs, etc.)"
 	@echo ""
 	@echo "$(GREEN)Examples:$(NC)"
 	@echo "  make update      # Pull latest and restart all services"
@@ -74,10 +84,14 @@ pull: ## Pull latest Docker images for all services
 	@$(OWUI_COMPOSE_CMD) pull
 	@echo "$(YELLOW)→ LiteLLM...$(NC)"
 	@$(LITELLM_COMPOSE_CMD) pull
+	@echo "$(YELLOW)→ Langfuse...$(NC)"
+	@$(LANGFUSE_COMPOSE_CMD) pull
 	@echo "$(GREEN)✅ All images updated$(NC)"
 
 start: network-create ## Start all services
 	@echo "$(CYAN)🚀 Starting all services...$(NC)"
+	@echo "$(YELLOW)→ Starting Langfuse...$(NC)"
+	@$(MAKE) langfuse-up
 	@echo "$(YELLOW)→ Starting LiteLLM...$(NC)"
 	@$(MAKE) litellm-up
 	@echo "$(YELLOW)→ Starting OpenWebUI...$(NC)"
@@ -92,6 +106,8 @@ stop: ## Stop all services
 	@$(MAKE) owui-down
 	@echo "$(YELLOW)→ Stopping LiteLLM...$(NC)"
 	@$(MAKE) litellm-down
+	@echo "$(YELLOW)→ Stopping Langfuse...$(NC)"
+	@$(MAKE) langfuse-down
 	@echo "$(GREEN)✅ All services stopped$(NC)"
 
 restart: ## Restart all services
@@ -110,6 +126,9 @@ status: ## Show status of all services
 	@echo "$(GREEN)LiteLLM:$(NC)"
 	@$(LITELLM_COMPOSE_CMD) ps || true
 	@echo ""
+	@echo "$(GREEN)Langfuse:$(NC)"
+	@$(LANGFUSE_COMPOSE_CMD) ps || true
+	@echo ""
 	@echo "$(GREEN)Network:$(NC)"
 	@docker network ls | grep llmnet || echo "  llmnet network not found"
 
@@ -126,6 +145,7 @@ rebuild: clean ## Rebuild all services from scratch
 	@echo "$(YELLOW)→ Rebuilding containers...$(NC)"
 	@$(OWUI_COMPOSE_CMD) up -d --force-recreate --build
 	@$(LITELLM_COMPOSE_CMD) up -d --force-recreate --build
+	@$(LANGFUSE_COMPOSE_CMD) up -d --force-recreate --build
 	@echo "$(GREEN)✅ All services rebuilt$(NC)"
 	@echo ""
 	@$(MAKE) status
@@ -137,6 +157,7 @@ clean: ## Clean up containers, volumes (preserves data volumes)
 	@echo "$(YELLOW)→ Removing containers...$(NC)"
 	@$(OWUI_COMPOSE_CMD) rm -f || true
 	@$(LITELLM_COMPOSE_CMD) rm -f || true
+	@$(LANGFUSE_COMPOSE_CMD) rm -f || true
 	@echo "$(YELLOW)→ Pruning unused resources...$(NC)"
 	@docker system prune -f
 	@echo "$(GREEN)✅ Cleanup complete$(NC)"
@@ -148,7 +169,7 @@ check-env: ## Check environment setup
 	@echo "$(GREEN)OpenWebUI:$(NC)"
 	@if [ -f "$(OPENWEBUI_ENV)" ]; then \
 		echo "  ✅ .env file exists"; \
-		grep -E "^(OPENWEBUI_BASE_URL|WEBUI_SECRET_KEY)" $(OPENWEBUI_ENV) | sed 's/=.*/=***/' || true; \
+		grep -E "^(WEBUI_SECRET_KEY|WEBUI_URL|ENABLE_FORWARD_USER_INFO_HEADERS)" $(OPENWEBUI_ENV) | sed 's/=.*/=***/' || true; \
 	else \
 		echo "  ❌ .env file missing - copy from .env.example"; \
 	fi
@@ -156,9 +177,17 @@ check-env: ## Check environment setup
 	@echo "$(GREEN)LiteLLM:$(NC)"
 	@if [ -f "$(LITELLM_ENV)" ]; then \
 		echo "  ✅ .env file exists"; \
-		grep -E "^(OPENROUTER_API_KEY|LITELLM_MASTER_KEY)" $(LITELLM_ENV) | sed 's/=.*/=***/' || true; \
+		grep -E "^(OPENROUTER_API_KEY|LITELLM_MASTER_KEY|LANGFUSE_PUBLIC_KEY|LANGFUSE_SECRET_KEY|LANGFUSE_HOST)" $(LITELLM_ENV) | sed 's/=.*/=***/' || true; \
 	else \
 		echo "  ❌ .env file missing - copy from .env.sample"; \
+	fi
+	@echo ""
+	@echo "$(GREEN)Langfuse:$(NC)"
+	@if [ -f "$(LANGFUSE_ENV)" ]; then \
+		echo "  ✅ .env file exists"; \
+		grep -E "^(POSTGRES_PASSWORD|NEXTAUTH_SECRET|LANGFUSE_SALT|LANGFUSE_URL|LANGFUSE_PORT|LANGFUSE_INIT_PROJECT_PUBLIC_KEY|LANGFUSE_INIT_PROJECT_SECRET_KEY)" $(LANGFUSE_ENV) | sed 's/=.*/=***/' || true; \
+	else \
+		echo "  ❌ .env file missing - copy from .env.example"; \
 	fi
 	@echo ""
 	@echo "$(GREEN)Docker:$(NC)"
@@ -218,3 +247,25 @@ litellm-pull:
 litellm-rebuild: ## Rebuild LiteLLM container
 	@echo "$(CYAN)🔨 Rebuilding LiteLLM...$(NC)"
 	$(LITELLM_COMPOSE_CMD) up -d --force-recreate --build
+
+langfuse-up:
+	$(LANGFUSE_COMPOSE_CMD) up -d
+
+langfuse-down:
+	$(LANGFUSE_COMPOSE_CMD) down
+
+langfuse-restart:
+	$(LANGFUSE_COMPOSE_CMD) restart
+
+langfuse-logs:
+	$(LANGFUSE_COMPOSE_CMD) logs -f
+
+langfuse-ps:
+	$(LANGFUSE_COMPOSE_CMD) ps
+
+langfuse-pull:
+	$(LANGFUSE_COMPOSE_CMD) pull
+
+langfuse-rebuild: ## Rebuild Langfuse container set
+	@echo "$(CYAN)🔨 Rebuilding Langfuse...$(NC)"
+	$(LANGFUSE_COMPOSE_CMD) up -d --force-recreate --build

@@ -1,54 +1,40 @@
 server {
+    if ($host = litellm.brandonbryant.io) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    server_name litellm.brandonbryant.io;
+    listen 80;
+    return 404; # managed by Certbot
+}
+
+server {
     server_name litellm.brandonbryant.io;
 
-    # LiteLLM UI proxy
+    # Proxy all paths (API + UI) to the LiteLLM container listening on localhost:4000
     location / {
         proxy_pass http://localhost:4000;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
 
+        # WebSockets / Server-Sent Events
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        # Forwarded headers
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-Host $host;
         proxy_set_header X-Forwarded-Port $server_port;
-
+        proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
 
-        proxy_cache_bypass $http_upgrade;
-        proxy_redirect off;
+        # Keep request/streaming stable
+        proxy_buffering off;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
 
-        # Pass through authorization headers
-        proxy_set_header Authorization $http_authorization;
-        proxy_pass_header Authorization;
-
-        # Session handling
-        proxy_set_header Cookie $http_cookie;
-        proxy_pass_header Set-Cookie;
-
-        # Timeout settings
-        proxy_connect_timeout 60s;
-        proxy_send_timeout 60s;
-        proxy_read_timeout 60s;
-
-        # Buffer settings for UI responses
-        proxy_buffering on;
-        proxy_buffer_size 4k;
-        proxy_buffers 8 4k;
-        proxy_busy_buffers_size 8k;
-    }
-
-    # Static assets and UI specific paths
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-        proxy_pass http://localhost:4000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        
-        # Cache static assets
-        expires 1d;
-        add_header Cache-Control "public, immutable";
+        # Allow larger bodies for long prompts/tools
+        client_max_body_size 50M;
     }
 
     listen 443 ssl; # managed by Certbot
@@ -56,16 +42,4 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/litellm.brandonbryant.io/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
-}server {
-    if ($host = litellm.brandonbryant.io) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-
-    listen 80;
-    server_name litellm.brandonbryant.io;
-    return 404; # managed by Certbot
-
-
 }

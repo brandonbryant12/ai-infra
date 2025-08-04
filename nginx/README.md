@@ -30,6 +30,8 @@ This directory contains the nginx server configurations for the AI infrastructur
   - Session cookie handling
   - UI authentication support
   - WebSocket support for streaming API responses
+- **LiteLLM Gateway**: OpenAI-compatible API gateway with dynamic OpenRouter integration (295+ models) and **Langfuse tracing** built-in
+- **Observability (Langfuse)**: Full traces, usage & cost analytics, evaluations
 
 ## Key Configuration Details
 
@@ -62,6 +64,28 @@ server {
 * LiteLLM Gateway (API + UI) is served on `litellm.brandonbryant.io`
 * LiteLLM runs on port 4000 locally (proxied by nginx)
 
+### Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/brandonbryant12/ai-infra.git
+cd ai-infra
+
+# Run setup script (first time only)
+./scripts/setup.sh
+
+# Edit environment files
+vim stacks/openwebui/.env    # Set WEBUI_SECRET_KEY, WEBUI_URL, ENABLE_FORWARD_USER_INFO_HEADERS=true (default already)
+vim stacks/langfuse/.env     # Set POSTGRES_PASSWORD, NEXTAUTH_SECRET, LANGFUSE_SALT, LANGFUSE_URL; (optional) LANGFUSE_INIT_* to auto-provision keys
+vim stacks/litellm/.env      # Set OPENROUTER_API_KEY; after Langfuse boots, set LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_HOST
+
+# Start all services
+make start
+
+# Check status
+make status
+```
+
 ## LiteLLM Gateway Services (litellm.brandonbryant.io)
 
 ### API Endpoint
@@ -78,6 +102,18 @@ server {
   - Usage tracking and spend monitoring
   - User management (requires database configuration)
 * WebSocket support is enabled for real-time features
+
+### User Header Flow
+
+* OpenWebUI forwards user info as `X-OpenWebUI-User-*` headers
+* LiteLLM Gateway uses your configured `X-OpenWebUI-User-Id` for user attribution (set in `config.yaml.j2`)
+* All services share the `llmnet` Docker network for communication
+
+### Endpoints
+
+* **OpenWebUI**: `https://ai.brandonbryant.io`
+* **LiteLLM API & UI**: `https://litellm.brandonbryant.io`
+* **Langfuse UI**: `https://langfuse.brandonbryant.io`
 
 ## Installation
 
@@ -135,4 +171,20 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
+### Architecture
+
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Users     │────▶│   OpenWebUI  │────▶│ LiteLLM     │────▶│ OpenRouter  │
+│             │     │   (Port 3000)│     │ (Port 4000) │     │  API        │
+└─────────────┘     └──────────────┘     └─────────────┘     └─────────────┘
+                           │
+                           └──────────────▶ Langfuse (Traces, Port 3100)
+```
+
+### Automatic Updates
+
+```bash
+make update   # Pull latest & restart OpenWebUI, LiteLLM, and Langfuse
+```
 \
