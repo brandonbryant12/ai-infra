@@ -11,6 +11,7 @@ services:
       - ./startup.sh:/app/startup.sh:ro
       - ./config.yaml.j2:/app/config.yaml.j2:ro
       - ./config.yaml:/app/config.yaml:rw
+      - ./custom_callbacks.py:/app/custom_callbacks.py:ro
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
       - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-sk-1234}
@@ -24,6 +25,10 @@ services:
       - UI_PASSWORD=${UI_PASSWORD:-changeme}
       - DISABLE_ADMIN_UI=${DISABLE_ADMIN_UI:-false}
       - PROXY_BASE_URL=${PROXY_BASE_URL:-http://localhost:4000}
+      # Langfuse configuration
+      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY}
+      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY}
+      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://langfuse.brandonbryant.io}
     entrypoint: ["/bin/bash", "/app/startup.sh"]
     restart: unless-stopped
     healthcheck:
