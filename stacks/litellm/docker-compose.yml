@@ -19,6 +19,8 @@ services:
       - LITELLM_REQUEST_TIMEOUT=${LITELLM_REQUEST_TIMEOUT:-600}
       - LITELLM_ENABLE_CACHING=${LITELLM_ENABLE_CACHING:-false}
       - LITELLM_ENABLE_FALLBACKS=${LITELLM_ENABLE_FALLBACKS:-false}
+      - UI_USERNAME=${UI_USERNAME:-admin}
+      - UI_PASSWORD=${UI_PASSWORD:-changeme}
     entrypoint: ["/bin/bash", "/app/startup.sh"]
     restart: unless-stopped
     healthcheck:
