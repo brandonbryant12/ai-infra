@@ -41,7 +41,10 @@
       "Bash(grep:*)",
       "Bash(rm:*)",
       "Bash(chmod:*)",
-      "Bash(/tmp/test-litellm-auth.sh:*)"
+      "Bash(/tmp/test-litellm-auth.sh:*)",
+      "Bash(sudo netstat:*)",
+      "Bash(ss:*)",
+      "Bash(sudo tail:*)"
     ],
     "deny": []
   }
