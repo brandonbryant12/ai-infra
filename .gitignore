@@ -3,6 +3,9 @@
 .env
 stacks/**/.env
 
+#generated dynamically
+stacks/litellm/config.yaml
+
 # local editor noise
 .vscode/
 .idea/
