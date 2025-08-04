@@ -38,7 +38,8 @@
       "Bash(diff:*)",
       "Bash(sudo cp:*)",
       "Bash(timeout 30 docker logs litellm-litellm-1 --tail 50)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }

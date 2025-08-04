@@ -19,6 +19,13 @@ general_settings:
   
   # Enable health checks
   health_check_interval: 300
+  
+  # Langfuse callbacks for tracing
+  success_callback: ["langfuse", "langfuse_user_tracker"]
+  failure_callback: ["langfuse", "langfuse_user_tracker"]
+  
+  # Custom callback path
+  custom_callback_class: "custom_callbacks.LangfuseUserTracker"
 
 litellm_settings:
   # Drop unsupported parameters
