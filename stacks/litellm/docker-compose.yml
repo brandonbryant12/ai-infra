@@ -13,7 +13,8 @@ services:
       - ./config.yaml:/app/config.yaml:rw
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
-      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-admin-key-12345}
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-sk-1234}
+      - LITELLM_SALT_KEY=${LITELLM_SALT_KEY}
       - CONFIG_PATH=/app/config.yaml
       - LITELLM_VERBOSE=${LITELLM_VERBOSE:-false}
       - LITELLM_REQUEST_TIMEOUT=${LITELLM_REQUEST_TIMEOUT:-600}
@@ -22,6 +23,7 @@ services:
       - UI_USERNAME=${UI_USERNAME:-admin}
       - UI_PASSWORD=${UI_PASSWORD:-changeme}
       - DISABLE_ADMIN_UI=${DISABLE_ADMIN_UI:-false}
+      - PROXY_BASE_URL=${PROXY_BASE_URL:-http://localhost:4000}
     entrypoint: ["/bin/bash", "/app/startup.sh"]
     restart: unless-stopped
     healthcheck:
