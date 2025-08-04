@@ -276,7 +276,7 @@ model_list:
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
-    max_tokens: 24000
+    max_tokens: 32768
 
 
 - model_name: mistralai-mistral-small-3.2-24b-instruct
@@ -285,7 +285,7 @@ model_list:
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
-    max_tokens: 32000
+    max_tokens: 32768
 
 
 - model_name: minimax-minimax-m1
@@ -636,7 +636,7 @@ model_list:
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
-    max_tokens: 40960
+    max_tokens: 10240
 
 
 - model_name: qwen-qwen3-8b-free
@@ -705,6 +705,15 @@ model_list:
 - model_name: tngtech-deepseek-r1t-chimera-free
   litellm_params:
     model: openrouter/tngtech/deepseek-r1t-chimera:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+
+    max_tokens: 40960
+
+
+- model_name: tngtech-deepseek-r1t-chimera
+  litellm_params:
+    model: openrouter/tngtech/deepseek-r1t-chimera
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
@@ -987,7 +996,7 @@ model_list:
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
-    max_tokens: 32000
+    max_tokens: 4096
 
 
 - model_name: deepseek-deepseek-chat-v3-0324-free
@@ -1086,7 +1095,7 @@ model_list:
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
-    max_tokens: 8192
+    max_tokens: 32768
 
 
 - model_name: cohere-command-a
@@ -1299,6 +1308,15 @@ model_list:
 - model_name: cognitivecomputations-dolphin3.0-mistral-24b-free
   litellm_params:
     model: openrouter/cognitivecomputations/dolphin3.0-mistral-24b:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+
+    max_tokens: 8192
+
+
+- model_name: cognitivecomputations-dolphin3.0-mistral-24b
+  litellm_params:
+    model: openrouter/cognitivecomputations/dolphin3.0-mistral-24b
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
@@ -1773,15 +1791,6 @@ model_list:
     max_tokens: 8192
 
 
-- model_name: anthropic-claude-3.5-haiku-20241022
-  litellm_params:
-    model: openrouter/anthropic/claude-3.5-haiku-20241022
-    api_key: os.environ/OPENROUTER_API_KEY
-    api_base: https://openrouter.ai/api/v1
-
-    max_tokens: 8192
-
-
 - model_name: anthropic-claude-3.5-haiku-beta
   litellm_params:
     model: openrouter/anthropic/claude-3.5-haiku:beta
@@ -1800,6 +1809,24 @@ model_list:
     max_tokens: 8192
 
 
+- model_name: anthropic-claude-3.5-haiku-20241022
+  litellm_params:
+    model: openrouter/anthropic/claude-3.5-haiku-20241022
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+
+    max_tokens: 8192
+
+
+- model_name: anthracite-org-magnum-v4-72b
+  litellm_params:
+    model: openrouter/anthracite-org/magnum-v4-72b
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+
+    max_tokens: 1024
+
+
 - model_name: anthropic-claude-3.5-sonnet-beta
   litellm_params:
     model: openrouter/anthropic/claude-3.5-sonnet:beta
@@ -1816,15 +1843,6 @@ model_list:
     api_base: https://openrouter.ai/api/v1
 
     max_tokens: 8192
-
-
-- model_name: anthracite-org-magnum-v4-72b
-  litellm_params:
-    model: openrouter/anthracite-org/magnum-v4-72b
-    api_key: os.environ/OPENROUTER_API_KEY
-    api_base: https://openrouter.ai/api/v1
-
-    max_tokens: 1024
 
 
 - model_name: mistralai-ministral-8b
@@ -1890,18 +1908,18 @@ model_list:
     max_tokens: 8192
 
 
-- model_name: anthracite-org-magnum-v2-72b
+- model_name: thedrummer-rocinante-12b
   litellm_params:
-    model: openrouter/anthracite-org/magnum-v2-72b
+    model: openrouter/thedrummer/rocinante-12b
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
     max_tokens: 8192
 
 
-- model_name: thedrummer-rocinante-12b
+- model_name: anthracite-org-magnum-v2-72b
   litellm_params:
-    model: openrouter/thedrummer/rocinante-12b
+    model: openrouter/anthracite-org/magnum-v2-72b
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
@@ -1935,18 +1953,9 @@ model_list:
     max_tokens: 20000
 
 
-- model_name: meta-llama-llama-3.2-11b-vision-instruct-free
+- model_name: meta-llama-llama-3.2-1b-instruct
   litellm_params:
-    model: openrouter/meta-llama/llama-3.2-11b-vision-instruct:free
-    api_key: os.environ/OPENROUTER_API_KEY
-    api_base: https://openrouter.ai/api/v1
-
-    max_tokens: 2048
-
-
-- model_name: meta-llama-llama-3.2-11b-vision-instruct
-  litellm_params:
-    model: openrouter/meta-llama/llama-3.2-11b-vision-instruct
+    model: openrouter/meta-llama/llama-3.2-1b-instruct
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
@@ -1962,9 +1971,18 @@ model_list:
     max_tokens: 2048
 
 
-- model_name: meta-llama-llama-3.2-1b-instruct
+- model_name: meta-llama-llama-3.2-11b-vision-instruct-free
   litellm_params:
-    model: openrouter/meta-llama/llama-3.2-1b-instruct
+    model: openrouter/meta-llama/llama-3.2-11b-vision-instruct:free
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+
+    max_tokens: 2048
+
+
+- model_name: meta-llama-llama-3.2-11b-vision-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.2-11b-vision-instruct
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
@@ -2133,6 +2151,15 @@ model_list:
     max_tokens: 4096
 
 
+- model_name: meta-llama-llama-3.1-8b-instruct
+  litellm_params:
+    model: openrouter/meta-llama/llama-3.1-8b-instruct
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+
+    max_tokens: 16384
+
+
 - model_name: meta-llama-llama-3.1-405b-instruct-free
   litellm_params:
     model: openrouter/meta-llama/llama-3.1-405b-instruct:free
@@ -2145,15 +2172,6 @@ model_list:
 - model_name: meta-llama-llama-3.1-405b-instruct
   litellm_params:
     model: openrouter/meta-llama/llama-3.1-405b-instruct
-    api_key: os.environ/OPENROUTER_API_KEY
-    api_base: https://openrouter.ai/api/v1
-
-    max_tokens: 16384
-
-
-- model_name: meta-llama-llama-3.1-8b-instruct
-  litellm_params:
-    model: openrouter/meta-llama/llama-3.1-8b-instruct
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
@@ -2277,15 +2295,6 @@ model_list:
     max_tokens: 4096
 
 
-- model_name: mistralai-mistral-7b-instruct-v0.3
-  litellm_params:
-    model: openrouter/mistralai/mistral-7b-instruct-v0.3
-    api_key: os.environ/OPENROUTER_API_KEY
-    api_base: https://openrouter.ai/api/v1
-
-    max_tokens: 16384
-
-
 - model_name: mistralai-mistral-7b-instruct-free
   litellm_params:
     model: openrouter/mistralai/mistral-7b-instruct:free
@@ -2311,6 +2320,15 @@ model_list:
     api_base: https://openrouter.ai/api/v1
 
     max_tokens: 131072
+
+
+- model_name: mistralai-mistral-7b-instruct-v0.3
+  litellm_params:
+    model: openrouter/mistralai/mistral-7b-instruct-v0.3
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+
+    max_tokens: 16384
 
 
 - model_name: microsoft-phi-3-mini-128k-instruct
@@ -2349,15 +2367,6 @@ model_list:
     max_tokens: 8192
 
 
-- model_name: openai-gpt-4o-2024-05-13
-  litellm_params:
-    model: openrouter/openai/gpt-4o-2024-05-13
-    api_key: os.environ/OPENROUTER_API_KEY
-    api_base: https://openrouter.ai/api/v1
-
-    max_tokens: 4096
-
-
 - model_name: openai-gpt-4o
   litellm_params:
     model: openrouter/openai/gpt-4o
@@ -2376,6 +2385,15 @@ model_list:
     max_tokens: 2048
 
 
+- model_name: openai-gpt-4o-2024-05-13
+  litellm_params:
+    model: openrouter/openai/gpt-4o-2024-05-13
+    api_key: os.environ/OPENROUTER_API_KEY
+    api_base: https://openrouter.ai/api/v1
+
+    max_tokens: 4096
+
+
 - model_name: sao10k-fimbulvetr-11b-v2
   litellm_params:
     model: openrouter/sao10k/fimbulvetr-11b-v2
@@ -2385,18 +2403,18 @@ model_list:
     max_tokens: 4096
 
 
-- model_name: meta-llama-llama-3-70b-instruct
+- model_name: meta-llama-llama-3-8b-instruct
   litellm_params:
-    model: openrouter/meta-llama/llama-3-70b-instruct
+    model: openrouter/meta-llama/llama-3-8b-instruct
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
     max_tokens: 16384
 
 
-- model_name: meta-llama-llama-3-8b-instruct
+- model_name: meta-llama-llama-3-70b-instruct
   litellm_params:
-    model: openrouter/meta-llama/llama-3-8b-instruct
+    model: openrouter/meta-llama/llama-3-70b-instruct
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
@@ -2457,18 +2475,18 @@ model_list:
     max_tokens: 2048
 
 
-- model_name: cohere-command-r
+- model_name: cohere-command
   litellm_params:
-    model: openrouter/cohere/command-r
+    model: openrouter/cohere/command
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
     max_tokens: 4000
 
 
-- model_name: cohere-command
+- model_name: cohere-command-r
   litellm_params:
-    model: openrouter/cohere/command
+    model: openrouter/cohere/command-r
     api_key: os.environ/OPENROUTER_API_KEY
     api_base: https://openrouter.ai/api/v1
 
