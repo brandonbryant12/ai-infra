@@ -16,6 +16,11 @@ litellm_settings:
     secret_key: os.environ/LANGFUSE_SECRET_KEY
     host: os.environ/LANGFUSE_HOST
   
+  # Fix for "default_user_id" issue - map user headers to Langfuse fields
+  default_litellm_params:
+    metadata:
+      trace_user_id: "{{X-OpenWebUI-User-Email}}"
+  
   # Forward all OpenWebUI user headers as metadata tags for rich tracking
   extra_spend_tag_headers:
     - "X-OpenWebUI-User-Name"
