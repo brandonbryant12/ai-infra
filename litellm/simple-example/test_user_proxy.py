@@ -46,18 +46,28 @@ def test_litellm_langfuse_integration():
     # Step 2: Test with OpenWebUI-style headers
     print("\n2️⃣  Testing chat completion with user headers...")
     
-    test_user_email = f"test-user-{int(time.time())}@example.com"
+    timestamp = int(time.time())
+    test_user_email = f"test-user-{timestamp}@example.com"
     test_user_name = "Test User"
-    test_user_id = f"user-{int(time.time())}"
+    test_user_id = f"user-{timestamp}"
+    test_session_id = f"session-{timestamp}"
+    test_chat_id = f"chat-{timestamp}"
     
     headers = {
         "Authorization": f"Bearer {litellm_key}",
         "Content-Type": "application/json",
-        # OpenWebUI forwards these headers
+        # All possible OpenWebUI headers for maximum user data capture
         "X-OpenWebUI-User-Email": test_user_email,
         "X-OpenWebUI-User-Name": test_user_name,
         "X-OpenWebUI-User-Id": test_user_id,
-        "X-OpenWebUI-User-Role": "user"
+        "X-OpenWebUI-User-Role": "user",
+        "X-OpenWebUI-Session-Id": test_session_id,
+        "X-OpenWebUI-Chat-Id": test_chat_id,
+        "X-OpenWebUI-Model": "openrouter/openai/gpt-4o-mini",
+        "X-OpenWebUI-Title": "Langfuse Integration Test",
+        # Additional context headers
+        "X-Forwarded-For": "127.0.0.1",
+        "User-Agent": "OpenWebUI/1.0 (Test Client)"
     }
     
     payload = {
@@ -77,6 +87,9 @@ def test_litellm_langfuse_integration():
     print(f"   User Email: {test_user_email}")
     print(f"   User Name: {test_user_name}")
     print(f"   User ID: {test_user_id}")
+    print(f"   Session ID: {test_session_id}")
+    print(f"   Chat ID: {test_chat_id}")
+    print(f"   Headers: {len([h for h in headers.keys() if h.startswith('X-OpenWebUI')])} OpenWebUI headers")
     
     try:
         response = requests.post(
@@ -130,24 +143,42 @@ def test_litellm_langfuse_integration():
         print(f"   Check manually at: {langfuse_host}")
     
     # Step 4: Summary
-    print("\n" + "=" * 50)
-    print("📋 Configuration Summary for OpenWebUI Integration:")
+    print("\n" + "=" * 60)
+    print("📋 Enhanced Configuration Summary for Maximum User Data Capture:")
     print()
     print("1. OpenWebUI docker-compose.yml must have:")
     print("   - ENABLE_FORWARD_USER_INFO_HEADERS=true")
     print()
-    print("2. LiteLLM config.yaml must have:")
+    print("2. LiteLLM config.yaml general_settings:")
     print("   - user_header_name: X-OpenWebUI-User-Email")
+    print("   - user_api_key_alias: X-OpenWebUI-User-Id")
+    print("   - detailed_debug: true")
+    print()
+    print("3. LiteLLM config.yaml litellm_settings:")
     print("   - success_callback: ['langfuse']")
     print("   - failure_callback: ['langfuse']")
+    print("   - set_verbose: true")
+    print("   - extra_spend_tag_headers:")
+    print("     • X-OpenWebUI-User-Name")
+    print("     • X-OpenWebUI-User-Id")
+    print("     • X-OpenWebUI-User-Role")
+    print("     • X-OpenWebUI-User-Email")
+    print("     • X-OpenWebUI-Session-Id")
+    print("     • X-OpenWebUI-Chat-Id")
+    print("     • X-OpenWebUI-Model")
+    print("     • X-OpenWebUI-Title")
     print()
-    print("3. LiteLLM .env must have:")
+    print("4. LiteLLM .env must have:")
     print("   - LANGFUSE_PUBLIC_KEY=<your-key>")
     print("   - LANGFUSE_SECRET_KEY=<your-secret>")
     print("   - LANGFUSE_HOST=<your-langfuse-url>")
     print()
-    print("✅ All components are configured correctly!")
-    print("   User data from OpenWebUI will be tracked in Langfuse.")
+    print("✅ Enhanced configuration captures ALL user context!")
+    print("   Every interaction will be richly attributed in Langfuse with:")
+    print("   • User identity (email, name, ID, role)")
+    print("   • Session and chat context")
+    print("   • Model and conversation metadata")
+    print(f"   • View detailed traces at: {langfuse_host}")
     
     return True
 
