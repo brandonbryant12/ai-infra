@@ -10,7 +10,6 @@ services:
       - ./requirements.txt:/app/requirements.txt:ro
       - ./startup.sh:/app/startup.sh:ro
       - ./config.yaml.j2:/app/config.yaml.j2:ro
-      - ./config.yaml:/app/config.yaml:rw
       - ./custom_callbacks.py:/app/custom_callbacks.py:ro
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}

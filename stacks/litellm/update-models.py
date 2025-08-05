@@ -69,7 +69,8 @@ class OpenRouterModelSync:
             "google/gemini-2.0-flash-exp", "google/gemini-pro",
             "meta-llama/llama-3.1-405b-instruct", "meta-llama/llama-3.1-70b-instruct",
             "mistralai/mistral-large", "mistralai/codestral-latest",
-            "qwen/qwen-2.5-72b-instruct", "deepseek/deepseek-coder"
+            "qwen/qwen-2.5-72b-instruct", "deepseek/deepseek-coder",
+            "openrouter/horizon-beta"  # Free community testing model
         }
         
         for model in models:
