@@ -204,7 +204,7 @@ class OpenRouterModelSync:
         import subprocess
         
         try:
-            template_path = "/app/config.yaml.j2"
+            template_path = "./config.yaml.j2"
             
             # Use jinja2 CLI to render the template
             cmd = [
