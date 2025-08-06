@@ -11,6 +11,7 @@ services:
       - ./startup.sh:/app/startup.sh:ro
       - ./config.yaml.j2:/app/config.yaml.j2:ro
       - ./custom_callbacks.py:/app/custom_callbacks.py:ro
+      - ./custom_langfuse_callback.py:/app/custom_langfuse_callback.py:ro
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
       - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-sk-1234}

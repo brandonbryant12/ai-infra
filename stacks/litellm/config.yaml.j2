@@ -33,9 +33,12 @@ litellm_settings:
   # Request timeout
   request_timeout: {{ request_timeout | default(600) }}
   
-  # Langfuse callbacks for tracing
-  success_callback: ["langfuse"]
-  failure_callback: ["langfuse"]
+  # Custom Langfuse callbacks for enhanced OpenWebUI tracking
+  success_callback: ["custom_langfuse_callback.CustomLangfuseLogger"]
+  failure_callback: ["custom_langfuse_callback.CustomLangfuseLogger"]
+  
+  # Enable custom callbacks
+  custom_callback_class: "custom_langfuse_callback.CustomLangfuseLogger"
   
   # Enable caching if specified
 {% if enable_caching %}
