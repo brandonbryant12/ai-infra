@@ -108,8 +108,8 @@ class OpenRouterModelSync:
         logger.info(f"Filtered to {len(filtered_models)} suitable models")
         return filtered_models
     
-    def generate_template_data(self, models: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Generate template data for Jinja2 rendering"""
+    def generate_static_config(self, models: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Generate static config using os.getenv for secrets"""
         processed_models = []
         
         for model in models:
@@ -134,19 +134,62 @@ class OpenRouterModelSync:
             
             processed_models.append(processed_model)
         
-        # Template data with configuration options
-        template_data = {
-            "models": processed_models,
-            "verbose": os.getenv("LITELLM_VERBOSE", "false").lower() == "true",
-            "request_timeout": int(os.getenv("LITELLM_REQUEST_TIMEOUT", "600")),
-            "enable_caching": os.getenv("LITELLM_ENABLE_CACHING", "false").lower() == "true",
-            "redis_host": os.getenv("REDIS_HOST", "localhost"),
-            "redis_port": int(os.getenv("REDIS_PORT", "6379")),
-            "enable_fallbacks": os.getenv("LITELLM_ENABLE_FALLBACKS", "false").lower() == "true",
-            "model_groups": self._create_model_groups(processed_models)
+        # Build model list for config
+        model_list = []
+        for model in processed_models:
+            model_config = {
+                'model_name': model['name'],
+                'litellm_params': {
+                    'model': f"openrouter/{model['id']}",
+                    'api_key': 'os.environ/OPENROUTER_API_KEY',
+                    'api_base': 'https://openrouter.ai/api/v1'
+                }
+            }
+            
+            # Add max_tokens if available
+            if model.get('context_length'):
+                max_tokens = model.get('max_completion_tokens') or (model['context_length'] // 4)
+                model_config['litellm_params']['max_tokens'] = max_tokens
+            
+            model_list.append(model_config)
+        
+        # Build complete static config
+        config = {
+            'model_list': model_list,
+            'general_settings': {
+                'user_header_name': 'X-OpenWebUI-User-Email',
+                'master_key': 'os.environ/LITELLM_MASTER_KEY',
+                'health_check_interval': 300,
+                'detailed_debug': True,
+                # Pre-call hook to map Open WebUI user to Langfuse trace_user_id
+                'custom_callback': 'openwebui_langfuse_hook.map_openwebui_to_langfuse'
+            },
+            'litellm_settings': {
+                'drop_params': True,
+                'set_verbose': os.getenv("LITELLM_VERBOSE", "false").lower() == "true",
+                'request_timeout': int(os.getenv("LITELLM_REQUEST_TIMEOUT", "600")),
+                'success_callback': ['langfuse'],
+                'failure_callback': ['langfuse']
+            }
         }
         
-        return template_data
+        # Add optional caching settings
+        if os.getenv("LITELLM_ENABLE_CACHING", "false").lower() == "true":
+            config['litellm_settings'].update({
+                'cache': True,
+                'cache_type': 'redis',
+                'redis_host': os.getenv("REDIS_HOST", "localhost"),
+                'redis_port': int(os.getenv("REDIS_PORT", "6379"))
+            })
+        
+        # Add optional router settings  
+        if os.getenv("LITELLM_ENABLE_FALLBACKS", "false").lower() == "true":
+            config['router_settings'] = {
+                'routing_strategy': 'simple-shuffle',
+                'model_group_alias': self._create_model_group_aliases(processed_models)
+            }
+        
+        return config
     
     def _create_model_groups(self, models: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Create logical model groups for routing"""
@@ -168,6 +211,39 @@ class OpenRouterModelSync:
                 })
         
         return groups
+    
+    def _create_model_group_aliases(self, models: List[Dict[str, Any]]) -> Dict[str, str]:
+        """Create model group aliases for routing"""
+        aliases = {}
+        
+        # Group by provider
+        providers = {}
+        for model in models:
+            provider = model["id"].split("/")[0]
+            if provider not in providers:
+                providers[provider] = []
+            providers[provider].append(model["name"])
+        
+        for provider, model_names in providers.items():
+            if len(model_names) > 1:  # Only create groups with multiple models
+                aliases[f"{provider}-models"] = ", ".join(model_names[:5])  # Limit to 5 models per group
+        
+        return aliases
+    
+    def write_static_config(self, config: Dict[str, Any]):
+        """Write static config directly to YAML file"""
+        try:
+            # Ensure directory exists
+            os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
+            
+            # Write config as YAML
+            with open(self.config_path, 'w') as f:
+                yaml.dump(config, f, default_flow_style=False, sort_keys=False, indent=2)
+            
+            logger.info(f"Generated static config with {len(config['model_list'])} models")
+            
+        except Exception as e:
+            raise ModelSyncError(f"Failed to write static config: {e}")
     
     def backup_existing_config(self):
         """Create a backup of the existing config"""
@@ -254,7 +330,7 @@ class OpenRouterModelSync:
     def run_sync(self):
         """Main sync process"""
         try:
-            logger.info("Starting OpenRouter model sync with Jinja2 templating...")
+            logger.info("Starting OpenRouter model sync with static config generation...")
             
             # Fetch models from OpenRouter
             all_models = self.fetch_openrouter_models()
@@ -265,15 +341,14 @@ class OpenRouterModelSync:
             if not filtered_models:
                 raise ModelSyncError("No suitable models found after filtering")
             
-            # Generate template data
-            template_data = self.generate_template_data(filtered_models)
+            # Generate static config
+            config = self.generate_static_config(filtered_models)
             
             # Backup existing config
             self.backup_existing_config()
             
-            # Write template data and render config with Jinja2
-            data_path = self.write_template_data(template_data)
-            self.render_config_with_jinja2(data_path)
+            # Write static config directly
+            self.write_static_config(config)
             
             # Validate config
             self.validate_config()
@@ -284,9 +359,8 @@ class OpenRouterModelSync:
             print(f"\n=== SYNC SUMMARY ===")
             print(f"Total models available: {len(all_models)}")
             print(f"Filtered models: {len(filtered_models)}")
-            print(f"Template data: {data_path}")
-            print(f"Config rendered: {self.config_path}")
-            print(f"Jinja2 templating: ✅ Enabled")
+            print(f"Config generated: {self.config_path}")
+            print(f"Static config: ✅ Enabled (no Jinja2)")
             print("===================\n")
             
         except ModelSyncError as e:
