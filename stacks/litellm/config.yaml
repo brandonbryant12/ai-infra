@@ -1763,7 +1763,7 @@ model_list:
     api_base: https://openrouter.ai/api/v1
     max_tokens: 4096
 general_settings:
-  user_header_name: X-OpenWebUI-User-Email
+  user_header_name: x-openwebui-user-name 
   master_key: os.environ/LITELLM_MASTER_KEY
   health_check_interval: 300
   detailed_debug: true
