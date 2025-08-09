@@ -45,7 +45,7 @@ SERVICES := openwebui litellm
 # Phony targets
 .PHONY: help update pull start stop restart status logs rebuild clean
 .PHONY: owui-up owui-down owui-logs owui-ps owui-restart owui-pull owui-rebuild
-.PHONY: litellm-up litellm-down litellm-logs litellm-ps litellm-restart litellm-pull litellm-rebuild
+.PHONY: litellm-up litellm-down litellm-logs litellm-ps litellm-restart litellm-pull litellm-rebuild litellm-test-hook
 .PHONY: langfuse-up langfuse-down langfuse-logs langfuse-ps langfuse-restart langfuse-pull langfuse-rebuild
 .PHONY: network-create check-env
 
@@ -247,6 +247,11 @@ litellm-pull:
 litellm-rebuild: ## Rebuild LiteLLM container
 	@echo "$(CYAN)🔨 Rebuilding LiteLLM...$(NC)"
 	$(LITELLM_COMPOSE_CMD) up -d --force-recreate --build
+
+litellm-test-hook: ## Run local tests for LiteLLM hooks/callbacks
+	@echo "$(CYAN)🧪 Running LiteLLM hook tests...$(NC)"
+	python3 $(LITELLM_DIR)/test_hook.py
+	python3 $(LITELLM_DIR)/test_log_callback.py
 
 langfuse-up:
 	$(LANGFUSE_COMPOSE_CMD) up -d
