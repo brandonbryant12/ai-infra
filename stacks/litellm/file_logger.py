@@ -22,12 +22,16 @@ class LiteLLMFileLogger:
         # Log file location
         self.log_file = os.getenv("LITELLM_LOG_FILE", "/tmp/litellm_logs.jsonl")
         
+        # Set flush mode - immediate for debugging
+        self.immediate_flush = True
+        
         # Initialize with a startup message
         self._write_log({
             "event": "logger_initialized",
             "timestamp": datetime.utcnow().isoformat(),
             "log_file": self.log_file,
-            "pid": os.getpid()
+            "pid": os.getpid(),
+            "immediate_flush": self.immediate_flush
         })
         
         # Track active traces
@@ -197,18 +201,42 @@ class LiteLLMFileLogger:
     # Callback methods for LiteLLM integration
     def log_success_event(self, kwargs, response_obj, start_time, end_time):
         """Sync success callback"""
+        # Immediate debug log to confirm callback was called
+        self._write_log({
+            "event_type": "debug_success_callback_called",
+            "timestamp": datetime.utcnow().isoformat(),
+            "method": "log_success_event"
+        })
         self.log_event(kwargs, response_obj, start_time, end_time, "success")
     
     async def async_log_success_event(self, kwargs, response_obj, start_time, end_time):
         """Async success callback"""
+        # Immediate debug log to confirm callback was called
+        self._write_log({
+            "event_type": "debug_async_success_callback_called",
+            "timestamp": datetime.utcnow().isoformat(),
+            "method": "async_log_success_event"
+        })
         self.log_event(kwargs, response_obj, start_time, end_time, "success")
     
     def log_failure_event(self, kwargs, response_obj, start_time, end_time):
         """Sync failure callback"""
+        # Immediate debug log to confirm callback was called
+        self._write_log({
+            "event_type": "debug_failure_callback_called",
+            "timestamp": datetime.utcnow().isoformat(),
+            "method": "log_failure_event"
+        })
         self.log_event(kwargs, response_obj, start_time, end_time, "error")
     
     async def async_log_failure_event(self, kwargs, response_obj, start_time, end_time):
         """Async failure callback"""
+        # Immediate debug log to confirm callback was called
+        self._write_log({
+            "event_type": "debug_async_failure_callback_called",
+            "timestamp": datetime.utcnow().isoformat(),
+            "method": "async_log_failure_event"
+        })
         self.log_event(kwargs, response_obj, start_time, end_time, "error")
     
     def log_stream_event(self, kwargs, response_obj, start_time, end_time):
