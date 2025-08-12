@@ -40,6 +40,11 @@ def write_log_entry(entry_type, data, error=None):
 def log_success(kwargs, response, start_time, end_time):
     """Success callback - logs successful API calls"""
     try:
+        # Write immediately to confirm function is called
+        with open(LOG_FILE, "a") as f:
+            f.write(f"{datetime.utcnow().isoformat()} | SUCCESS CALLBACK CALLED | Response type: {type(response)}\n")
+            f.flush()
+        
         # Calculate duration
         if isinstance(start_time, (int, float)) and isinstance(end_time, (int, float)):
             duration = end_time - start_time
@@ -94,6 +99,10 @@ def log_success(kwargs, response, start_time, end_time):
         write_log_entry("SUCCESS", log_data)
         
     except Exception as e:
+        # Write error directly to file
+        with open(LOG_FILE, "a") as f:
+            f.write(f"{datetime.utcnow().isoformat()} | ERROR in log_success: {e}\n")
+            f.flush()
         write_log_entry("ERROR", {"error": "Failed to log success event"}, error=e)
 
 
