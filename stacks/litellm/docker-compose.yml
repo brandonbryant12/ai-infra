@@ -11,6 +11,7 @@ services:
       - ./simple_callback.py:/app/simple_callback.py:ro
       - ./file_callback.py:/app/file_callback.py:ro
       - ./class_callback.py:/app/class_callback.py:ro
+      - ./file_logger.py:/app/file_logger.py:ro
       - ./config.yaml:/app/config.yaml:ro
     env_file:
       - ./litellm.env
