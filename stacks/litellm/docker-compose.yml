@@ -8,6 +8,7 @@ services:
     volumes:
       - ./startup.sh:/app/startup.sh:ro
       - ./custom_langfuse_callback.py:/app/custom_langfuse_callback.py:ro
+      - ./simple_callback.py:/app/simple_callback.py:ro
       - ./config.yaml:/app/config.yaml:ro
     env_file:
       - ./litellm.env
