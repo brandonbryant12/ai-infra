@@ -7,12 +7,8 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-# Log directory - this will be mounted as a volume
-LOG_DIR = "/app/logs"
-LOG_FILE = f"{LOG_DIR}/litellm_requests.log"
-
-# Ensure log directory exists
-Path(LOG_DIR).mkdir(parents=True, exist_ok=True)
+# Log file inside Docker container (not mounted)
+LOG_FILE = "/tmp/litellm.log"
 
 def write_log_entry(entry_type, data, error=None):
     """Write a structured log entry to file"""
