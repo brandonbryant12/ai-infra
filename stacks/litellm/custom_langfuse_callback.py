@@ -19,138 +19,127 @@ class CustomLangfuseLogger(CustomLogger):
     
     def __init__(self):
         super().__init__()
-        print(f"[CustomLangfuseLogger] Initialized at {datetime.utcnow().isoformat()}", flush=True)
+        # Print to both stdout and stderr to ensure visibility
+        print(f"[CustomLangfuseLogger] INIT: Initialized at {datetime.utcnow().isoformat()}", flush=True, file=sys.stdout)
+        print(f"[CustomLangfuseLogger] INIT: Initialized at {datetime.utcnow().isoformat()}", flush=True, file=sys.stderr)
         sys.stdout.flush()
+        sys.stderr.flush()
+    
+    def _print_both(self, message):
+        """Helper to print to both stdout and stderr"""
+        print(message, flush=True, file=sys.stdout)
+        print(message, flush=True, file=sys.stderr)
+        sys.stdout.flush()
+        sys.stderr.flush()
     
     def log_pre_api_call(self, model, messages, kwargs):
         """
         Called before making the API call
         """
         try:
-            print(f"\n{'='*80}", flush=True)
-            print(f"[CustomLangfuseLogger] PRE-API CALL", flush=True)
-            print(f"[CustomLangfuseLogger] Timestamp: {datetime.utcnow().isoformat()}", flush=True)
-            print(f"-" * 40, flush=True)
+            self._print_both(f"\n{'='*80}")
+            self._print_both(f"[CustomLangfuseLogger] PRE-API CALL")
+            self._print_both(f"[CustomLangfuseLogger] Timestamp: {datetime.utcnow().isoformat()}")
+            self._print_both(f"-" * 40)
             
-            print(f"  Model: {model}", flush=True)
+            self._print_both(f"  Model: {model}")
             
-            print(f"\n  Messages:", flush=True)
+            self._print_both(f"\n  Messages:")
             for i, msg in enumerate(messages):
-                print(f"    [{i}]: {json.dumps(msg, indent=6)}", flush=True)
+                self._print_both(f"    [{i}]: {json.dumps(msg, indent=6)}")
             
-            print(f"\n  Kwargs:", flush=True)
+            self._print_both(f"\n  Kwargs:")
             for key, value in kwargs.items():
                 try:
                     if isinstance(value, (dict, list)):
-                        print(f"    {key}: {json.dumps(value, indent=6)}", flush=True)
+                        self._print_both(f"    {key}: {json.dumps(value, indent=6)}")
                     else:
-                        print(f"    {key}: {value}", flush=True)
+                        self._print_both(f"    {key}: {value}")
                 except:
-                    print(f"    {key}: {str(value)}", flush=True)
+                    self._print_both(f"    {key}: {str(value)}")
             
-            print(f"{'='*80}\n", flush=True)
+            self._print_both(f"{'='*80}\n")
         except Exception as e:
-            print(f"[CustomLangfuseLogger] ERROR in log_pre_api_call: {str(e)}\n{traceback.format_exc()}", flush=True)
+            self._print_both(f"[CustomLangfuseLogger] ERROR in log_pre_api_call: {str(e)}\n{traceback.format_exc()}")
     
     def log_post_api_call(self, kwargs, response_obj, start_time, end_time):
         """
         Called after receiving the API response
         """
         try:
-            print(f"\n{'='*80}", flush=True)
-            print(f"[CustomLangfuseLogger] POST-API CALL", flush=True)
-            print(f"[CustomLangfuseLogger] Timestamp: {datetime.utcnow().isoformat()}", flush=True)
-            print(f"[CustomLangfuseLogger] Duration: {end_time - start_time:.3f} seconds", flush=True)
-            print(f"-" * 40, flush=True)
+            self._print_both(f"\n{'='*80}")
+            self._print_both(f"[CustomLangfuseLogger] POST-API CALL")
+            self._print_both(f"[CustomLangfuseLogger] Timestamp: {datetime.utcnow().isoformat()}")
+            self._print_both(f"[CustomLangfuseLogger] Duration: {end_time - start_time:.3f} seconds")
+            self._print_both(f"-" * 40)
             
-            print(f"\n  Response Type: {type(response_obj).__name__}", flush=True)
+            self._print_both(f"\n  Response Type: {type(response_obj).__name__}")
             
             if hasattr(response_obj, "__dict__"):
-                print(f"\n  Response Attributes:", flush=True)
+                self._print_both(f"\n  Response Attributes:")
                 for key, value in response_obj.__dict__.items():
                     try:
                         if isinstance(value, (dict, list)):
-                            print(f"    {key}: {json.dumps(value, indent=6)}", flush=True)
+                            self._print_both(f"    {key}: {json.dumps(value, indent=6)}")
                         else:
-                            print(f"    {key}: {value}", flush=True)
+                            self._print_both(f"    {key}: {value}")
                     except:
-                        print(f"    {key}: {str(value)}", flush=True)
+                        self._print_both(f"    {key}: {str(value)}")
             
-            print(f"{'='*80}\n", flush=True)
+            self._print_both(f"{'='*80}\n")
         except Exception as e:
-            print(f"[CustomLangfuseLogger] ERROR in log_post_api_call: {str(e)}\n{traceback.format_exc()}", flush=True)
+            self._print_both(f"[CustomLangfuseLogger] ERROR in log_post_api_call: {str(e)}\n{traceback.format_exc()}")
     
     def log_success_event(self, kwargs, response_obj, start_time, end_time):
         """
         Sync handler for successful completions
         """
         try:
-            print(f"\n{'='*80}", flush=True)
-            print(f"[CustomLangfuseLogger] SUCCESS EVENT", flush=True)
-            print(f"[CustomLangfuseLogger] Timestamp: {datetime.utcnow().isoformat()}", flush=True)
-            print(f"[CustomLangfuseLogger] Duration: {end_time - start_time:.3f} seconds", flush=True)
-            print(f"-" * 40, flush=True)
+            self._print_both(f"\n{'='*80}")
+            self._print_both(f"[CustomLangfuseLogger] SUCCESS EVENT")
+            self._print_both(f"[CustomLangfuseLogger] Timestamp: {datetime.utcnow().isoformat()}")
+            self._print_both(f"[CustomLangfuseLogger] Duration: {end_time - start_time:.3f} seconds")
+            self._print_both(f"-" * 40)
             
             # Print request kwargs
-            print(f"\n  Request kwargs:", flush=True)
-            for key, value in kwargs.items():
-                if key == "messages" and isinstance(value, list):
-                    print(f"    {key}:", flush=True)
-                    for i, msg in enumerate(value):
-                        print(f"      [{i}]: {json.dumps(msg, indent=8)}", flush=True)
-                elif key == "litellm_params" and isinstance(value, dict):
-                    print(f"    {key}:", flush=True)
-                    print(f"      {json.dumps(value, indent=6)}", flush=True)
-                else:
-                    try:
-                        if isinstance(value, (dict, list)):
-                            print(f"    {key}: {json.dumps(value, indent=6)}", flush=True)
-                        else:
-                            print(f"    {key}: {value}", flush=True)
-                    except:
-                        print(f"    {key}: {str(value)}", flush=True)
+            self._print_both(f"\n  Request kwargs keys: {list(kwargs.keys())}")
+            
+            # Print messages if present
+            if "messages" in kwargs and isinstance(kwargs["messages"], list):
+                self._print_both(f"\n  Messages ({len(kwargs['messages'])} total):")
+                for i, msg in enumerate(kwargs["messages"]):
+                    self._print_both(f"    [{i}]: {json.dumps(msg, indent=8)}")
             
             # Print response
-            print(f"\n  Response:", flush=True)
-            if hasattr(response_obj, "__dict__"):
-                for key, value in response_obj.__dict__.items():
-                    try:
-                        if isinstance(value, (dict, list)):
-                            print(f"    {key}: {json.dumps(value, indent=6)}", flush=True)
-                        else:
-                            print(f"    {key}: {value}", flush=True)
-                    except:
-                        print(f"    {key}: {str(value)}", flush=True)
-            else:
-                print(f"    {response_obj}", flush=True)
+            self._print_both(f"\n  Response Type: {type(response_obj).__name__}")
             
             # Extract usage if available
             if hasattr(response_obj, "usage") and response_obj.usage:
-                print(f"\n  Token Usage:", flush=True)
-                print(f"    Prompt tokens: {response_obj.usage.prompt_tokens}", flush=True)
-                print(f"    Completion tokens: {response_obj.usage.completion_tokens}", flush=True)
-                print(f"    Total tokens: {response_obj.usage.total_tokens}", flush=True)
+                self._print_both(f"\n  Token Usage:")
+                self._print_both(f"    Prompt tokens: {response_obj.usage.prompt_tokens}")
+                self._print_both(f"    Completion tokens: {response_obj.usage.completion_tokens}")
+                self._print_both(f"    Total tokens: {response_obj.usage.total_tokens}")
             
             # Extract response content
             if hasattr(response_obj, "choices") and response_obj.choices:
-                print(f"\n  Response Content:", flush=True)
+                self._print_both(f"\n  Response Content:")
                 for i, choice in enumerate(response_obj.choices):
                     if hasattr(choice, "message"):
                         if hasattr(choice.message, "content"):
-                            print(f"    Choice {i} content: {choice.message.content}", flush=True)
-                        if hasattr(choice.message, "function_call"):
-                            print(f"    Choice {i} function call: {choice.message.function_call}", flush=True)
-                        if hasattr(choice.message, "tool_calls"):
-                            print(f"    Choice {i} tool calls: {choice.message.tool_calls}", flush=True)
+                            content = choice.message.content
+                            if len(str(content)) > 500:
+                                content = str(content)[:500] + "..."
+                            self._print_both(f"    Choice {i} content: {content}")
             
-            print(f"{'='*80}\n", flush=True)
+            self._print_both(f"{'='*80}\n")
         except Exception as e:
-            print(f"[CustomLangfuseLogger] ERROR in log_success_event: {str(e)}\n{traceback.format_exc()}", flush=True)
+            self._print_both(f"[CustomLangfuseLogger] ERROR in log_success_event: {str(e)}\n{traceback.format_exc()}")
     
     async def async_log_success_event(self, kwargs, response_obj, start_time, end_time):
         """
         Async handler for successful completions
         """
+        self._print_both(f"[CustomLangfuseLogger] ASYNC SUCCESS EVENT CALLED")
         self.log_success_event(kwargs, response_obj, start_time, end_time)
     
     def log_failure_event(self, kwargs, response_obj, start_time, end_time):
@@ -158,54 +147,32 @@ class CustomLangfuseLogger(CustomLogger):
         Sync handler for failed completions
         """
         try:
-            print(f"\n{'='*80}", flush=True)
-            print(f"[CustomLangfuseLogger] FAILURE EVENT", flush=True)
-            print(f"[CustomLangfuseLogger] Timestamp: {datetime.utcnow().isoformat()}", flush=True)
-            print(f"[CustomLangfuseLogger] Duration: {end_time - start_time:.3f} seconds", flush=True)
-            print(f"-" * 40, flush=True)
+            self._print_both(f"\n{'='*80}")
+            self._print_both(f"[CustomLangfuseLogger] FAILURE EVENT")
+            self._print_both(f"[CustomLangfuseLogger] Timestamp: {datetime.utcnow().isoformat()}")
+            self._print_both(f"[CustomLangfuseLogger] Duration: {end_time - start_time:.3f} seconds")
+            self._print_both(f"-" * 40)
             
             # Print request kwargs
-            print(f"\n  Request kwargs:", flush=True)
-            for key, value in kwargs.items():
-                if key == "messages" and isinstance(value, list):
-                    print(f"    {key}:", flush=True)
-                    for i, msg in enumerate(value):
-                        print(f"      [{i}]: {json.dumps(msg, indent=8)}", flush=True)
-                else:
-                    try:
-                        if isinstance(value, (dict, list)):
-                            print(f"    {key}: {json.dumps(value, indent=6)}", flush=True)
-                        else:
-                            print(f"    {key}: {value}", flush=True)
-                    except:
-                        print(f"    {key}: {str(value)}", flush=True)
+            self._print_both(f"\n  Request kwargs keys: {list(kwargs.keys())}")
             
             # Print error/response
-            print(f"\n  Error/Response:", flush=True)
+            self._print_both(f"\n  Error/Response:")
             if isinstance(response_obj, Exception):
-                print(f"    Exception Type: {type(response_obj).__name__}", flush=True)
-                print(f"    Error Message: {str(response_obj)}", flush=True)
-                print(f"    Traceback: {traceback.format_exc()}", flush=True)
-            elif hasattr(response_obj, "__dict__"):
-                for key, value in response_obj.__dict__.items():
-                    try:
-                        if isinstance(value, (dict, list)):
-                            print(f"    {key}: {json.dumps(value, indent=6)}", flush=True)
-                        else:
-                            print(f"    {key}: {value}", flush=True)
-                    except:
-                        print(f"    {key}: {str(value)}", flush=True)
+                self._print_both(f"    Exception Type: {type(response_obj).__name__}")
+                self._print_both(f"    Error Message: {str(response_obj)}")
             else:
-                print(f"    {response_obj}", flush=True)
+                self._print_both(f"    {response_obj}")
             
-            print(f"{'='*80}\n", flush=True)
+            self._print_both(f"{'='*80}\n")
         except Exception as e:
-            print(f"[CustomLangfuseLogger] ERROR in log_failure_event: {str(e)}\n{traceback.format_exc()}", flush=True)
+            self._print_both(f"[CustomLangfuseLogger] ERROR in log_failure_event: {str(e)}\n{traceback.format_exc()}")
     
     async def async_log_failure_event(self, kwargs, response_obj, start_time, end_time):
         """
         Async handler for failed completions
         """
+        self._print_both(f"[CustomLangfuseLogger] ASYNC FAILURE EVENT CALLED")
         self.log_failure_event(kwargs, response_obj, start_time, end_time)
     
     def log_stream_event(self, kwargs, response_obj, start_time, end_time):
@@ -213,45 +180,28 @@ class CustomLangfuseLogger(CustomLogger):
         Sync handler for streaming completions
         """
         try:
-            print(f"\n{'='*80}", flush=True)
-            print(f"[CustomLangfuseLogger] STREAM EVENT", flush=True)
-            print(f"[CustomLangfuseLogger] Timestamp: {datetime.utcnow().isoformat()}", flush=True)
-            print(f"[CustomLangfuseLogger] Duration: {end_time - start_time:.3f} seconds", flush=True)
-            print(f"-" * 40, flush=True)
+            self._print_both(f"\n{'='*80}")
+            self._print_both(f"[CustomLangfuseLogger] STREAM EVENT")
+            self._print_both(f"[CustomLangfuseLogger] Timestamp: {datetime.utcnow().isoformat()}")
+            self._print_both(f"[CustomLangfuseLogger] Duration: {end_time - start_time:.3f} seconds")
+            self._print_both(f"-" * 40)
             
             # Print request kwargs
-            print(f"\n  Request kwargs:", flush=True)
-            for key, value in kwargs.items():
-                if key == "messages" and isinstance(value, list):
-                    print(f"    {key}: {len(value)} messages", flush=True)
-                elif key != "complete_streaming_response":
-                    try:
-                        if isinstance(value, (dict, list)):
-                            print(f"    {key}: {json.dumps(value, indent=6)}", flush=True)
-                        else:
-                            print(f"    {key}: {value}", flush=True)
-                    except:
-                        print(f"    {key}: {str(value)[:100]}...", flush=True)
+            self._print_both(f"\n  Request kwargs keys: {list(kwargs.keys())}")
             
-            # Print streaming response if available
+            # Print streaming response info
             if "complete_streaming_response" in kwargs:
-                print(f"\n  Complete Streaming Response:", flush=True)
                 streaming_response = kwargs.get("complete_streaming_response")
                 if streaming_response:
-                    print(f"    Type: {type(streaming_response).__name__}", flush=True)
-                    if hasattr(streaming_response, "__dict__"):
-                        for key, value in streaming_response.__dict__.items():
-                            try:
-                                print(f"    {key}: {value if len(str(value)) < 200 else str(value)[:200] + '...'}", flush=True)
-                            except:
-                                print(f"    {key}: [unable to print]", flush=True)
+                    self._print_both(f"\n  Streaming Response Type: {type(streaming_response).__name__}")
             
-            print(f"{'='*80}\n", flush=True)
+            self._print_both(f"{'='*80}\n")
         except Exception as e:
-            print(f"[CustomLangfuseLogger] ERROR in log_stream_event: {str(e)}\n{traceback.format_exc()}", flush=True)
+            self._print_both(f"[CustomLangfuseLogger] ERROR in log_stream_event: {str(e)}\n{traceback.format_exc()}")
     
     async def async_log_stream_event(self, kwargs, response_obj, start_time, end_time):
         """
         Async handler for streaming completions
         """
+        self._print_both(f"[CustomLangfuseLogger] ASYNC STREAM EVENT CALLED")
         self.log_stream_event(kwargs, response_obj, start_time, end_time)
