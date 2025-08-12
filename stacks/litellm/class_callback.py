@@ -142,3 +142,6 @@ class FileLogger(CustomLogger):
 
 # Create and export the logger instance
 logger_instance = FileLogger()
+
+# Export the instance for use in callbacks
+file_logger = logger_instance
