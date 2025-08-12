@@ -16,6 +16,6 @@ litellm_settings:
   set_verbose: false
   request_timeout: 600
   success_callback:
-  - file_callback.log_success
+  - class_callback.FileLogger
   failure_callback:
-  - file_callback.log_failure
+  - class_callback.FileLogger
