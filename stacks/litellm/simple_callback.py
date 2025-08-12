@@ -3,71 +3,105 @@ Simplified callback for LiteLLM - just functions, no classes
 """
 
 import sys
+import os
 import json
 from datetime import datetime
+
+# Write to a file as well to ensure we're being called
+LOG_FILE = "/tmp/litellm_callback.log"
+
+def write_log(message):
+    """Write to both stderr and a file for debugging"""
+    # Print to stderr
+    print(message, file=sys.stderr, flush=True)
+    sys.stderr.flush()
+    
+    # Also write to stdout
+    print(message, file=sys.stdout, flush=True)
+    sys.stdout.flush()
+    
+    # Write to file
+    try:
+        with open(LOG_FILE, "a") as f:
+            f.write(f"{message}\n")
+            f.flush()
+    except:
+        pass
 
 
 def log_success(kwargs, response, start_time, end_time):
     """Success callback function"""
-    print(f"\n{'='*60}", file=sys.stderr, flush=True)
-    print(f"[CALLBACK] SUCCESS at {datetime.utcnow().isoformat()}", file=sys.stderr, flush=True)
+    write_log(f"\n{'='*60}")
+    write_log(f"[CALLBACK] SUCCESS at {datetime.utcnow().isoformat()}")
     
     # Handle both float timestamps and datetime objects
-    if isinstance(start_time, (int, float)) and isinstance(end_time, (int, float)):
-        duration = end_time - start_time
-    else:
-        duration = (end_time - start_time).total_seconds() if hasattr(end_time - start_time, 'total_seconds') else 0
-    
-    print(f"[CALLBACK] Duration: {duration:.3f}s", file=sys.stderr, flush=True)
+    try:
+        if isinstance(start_time, (int, float)) and isinstance(end_time, (int, float)):
+            duration = end_time - start_time
+        else:
+            duration = (end_time - start_time).total_seconds() if hasattr(end_time - start_time, 'total_seconds') else 0
+        write_log(f"[CALLBACK] Duration: {duration:.3f}s")
+    except Exception as e:
+        write_log(f"[CALLBACK] Duration error: {e}")
     
     # Log request info
-    if "messages" in kwargs:
-        print(f"[CALLBACK] Messages: {len(kwargs.get('messages', []))} messages", file=sys.stderr, flush=True)
+    try:
+        if "messages" in kwargs:
+            write_log(f"[CALLBACK] Messages: {len(kwargs.get('messages', []))} messages")
+        
+        if "model" in kwargs:
+            write_log(f"[CALLBACK] Model: {kwargs['model']}")
+        
+        # Log response info
+        if hasattr(response, 'usage'):
+            usage = response.usage
+            if usage:
+                write_log(f"[CALLBACK] Tokens - Prompt: {usage.prompt_tokens}, Completion: {usage.completion_tokens}, Total: {usage.total_tokens}")
+        
+        if hasattr(response, 'choices') and response.choices:
+            for i, choice in enumerate(response.choices):
+                if hasattr(choice, 'message') and hasattr(choice.message, 'content'):
+                    content = str(choice.message.content)[:100] if choice.message.content else "None"
+                    write_log(f"[CALLBACK] Response preview: {content}...")
+                    break
+    except Exception as e:
+        write_log(f"[CALLBACK] Error processing response: {e}")
     
-    if "model" in kwargs:
-        print(f"[CALLBACK] Model: {kwargs['model']}", file=sys.stderr, flush=True)
-    
-    # Log response info
-    if hasattr(response, 'usage'):
-        usage = response.usage
-        if usage:
-            print(f"[CALLBACK] Tokens - Prompt: {usage.prompt_tokens}, Completion: {usage.completion_tokens}, Total: {usage.total_tokens}", file=sys.stderr, flush=True)
-    
-    if hasattr(response, 'choices') and response.choices:
-        for i, choice in enumerate(response.choices):
-            if hasattr(choice, 'message') and hasattr(choice.message, 'content'):
-                content = str(choice.message.content)[:100] if choice.message.content else "None"
-                print(f"[CALLBACK] Response preview: {content}...", file=sys.stderr, flush=True)
-                break
-    
-    print(f"{'='*60}", file=sys.stderr, flush=True)
-    sys.stderr.flush()
+    write_log(f"{'='*60}")
 
 
 def log_failure(kwargs, response, start_time, end_time):
     """Failure callback function"""
-    print(f"\n{'='*60}", file=sys.stderr, flush=True)
-    print(f"[CALLBACK] FAILURE at {datetime.utcnow().isoformat()}", file=sys.stderr, flush=True)
+    write_log(f"\n{'='*60}")
+    write_log(f"[CALLBACK] FAILURE at {datetime.utcnow().isoformat()}")
     
     # Handle both float timestamps and datetime objects
-    if isinstance(start_time, (int, float)) and isinstance(end_time, (int, float)):
-        duration = end_time - start_time
-    else:
-        duration = (end_time - start_time).total_seconds() if hasattr(end_time - start_time, 'total_seconds') else 0
+    try:
+        if isinstance(start_time, (int, float)) and isinstance(end_time, (int, float)):
+            duration = end_time - start_time
+        else:
+            duration = (end_time - start_time).total_seconds() if hasattr(end_time - start_time, 'total_seconds') else 0
+        write_log(f"[CALLBACK] Duration: {duration:.3f}s")
+    except Exception as e:
+        write_log(f"[CALLBACK] Duration error: {e}")
     
-    print(f"[CALLBACK] Duration: {duration:.3f}s", file=sys.stderr, flush=True)
+    try:
+        if isinstance(response, Exception):
+            write_log(f"[CALLBACK] Error: {type(response).__name__}: {str(response)}")
+        else:
+            write_log(f"[CALLBACK] Response: {response}")
+    except Exception as e:
+        write_log(f"[CALLBACK] Error processing failure: {e}")
     
-    if isinstance(response, Exception):
-        print(f"[CALLBACK] Error: {type(response).__name__}: {str(response)}", file=sys.stderr, flush=True)
-    else:
-        print(f"[CALLBACK] Response: {response}", file=sys.stderr, flush=True)
-    
-    print(f"{'='*60}", file=sys.stderr, flush=True)
-    sys.stderr.flush()
+    write_log(f"{'='*60}")
 
 
 # Export the callbacks
 success_callback = log_success
 failure_callback = log_failure
 
-print(f"[simple_callback.py] Module loaded at {datetime.utcnow().isoformat()}", file=sys.stderr, flush=True)
+# Log when module loads
+write_log(f"[simple_callback.py] Module loaded at {datetime.utcnow().isoformat()}")
+write_log(f"[simple_callback.py] Log file: {LOG_FILE}")
+write_log(f"[simple_callback.py] Python version: {sys.version}")
+write_log(f"[simple_callback.py] Working directory: {os.getcwd()}")

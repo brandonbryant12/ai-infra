@@ -4,7 +4,9 @@
       "WebFetch(domain:docs.litellm.ai)",
       "Bash(sed:*)",
       "Bash(git add:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(mkdir:*)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": []
