@@ -6,30 +6,11 @@ services:
     networks:
       - llmnet
     volumes:
-      - ./update-models.py:/app/update-models.py:ro
-      - ./requirements.txt:/app/requirements.txt:ro
       - ./startup.sh:/app/startup.sh:ro
-      - ./custom_callbacks.py:/app/custom_callbacks.py:ro
-      - ./openwebui_langfuse_hook.py:/app/openwebui_langfuse_hook.py:ro
-    environment:
-      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
-      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-sk-1234}
-      - LITELLM_SALT_KEY=${LITELLM_SALT_KEY}
-      - CONFIG_PATH=/app/config.yaml
-      - LITELLM_VERBOSE=${LITELLM_VERBOSE:-false}
-      - LITELLM_REQUEST_TIMEOUT=${LITELLM_REQUEST_TIMEOUT:-600}
-      - LITELLM_ENABLE_CACHING=${LITELLM_ENABLE_CACHING:-false}
-      - LITELLM_ENABLE_FALLBACKS=${LITELLM_ENABLE_FALLBACKS:-false}
-      - UI_USERNAME=${UI_USERNAME:-admin}
-      - UI_PASSWORD=${UI_PASSWORD:-changeme}
-      - DISABLE_ADMIN_UI=${DISABLE_ADMIN_UI:-false}
-      - PROXY_BASE_URL=${PROXY_BASE_URL:-http://localhost:4000}
-      # Langfuse configuration
-      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY}
-      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY}
-      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://langfuse.brandonbryant.io}
-      - LANGFUSE_DEBUG=true
-      - LITELLM_LOG=DEBUG
+      - ./custom_langfuse_callback.py:/app/custom_langfuse_callback.py:ro
+      - ./config.yaml:/app/config.yaml:ro
+    env_file:
+      - ./litellm.env
     entrypoint: ["/bin/bash", "/app/startup.sh"]
     restart: unless-stopped
     healthcheck:

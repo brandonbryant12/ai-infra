@@ -44,9 +44,7 @@ class CustomLangfuseLogger(CustomLogger):
             )
         
         self.initialize_langfuse()
-        verbose_logger.info(
-            f"Custom Langfuse Logger initialized with host: {self.langfuse_host}"
-        )
+        print(f"[CustomLangfuseLogger] Initialized with host: {self.langfuse_host}")
     
     def initialize_langfuse(self):
         """Initialize Langfuse client"""
@@ -62,6 +60,7 @@ class CustomLangfuseLogger(CustomLogger):
         """
         Extract Open WebUI specific metadata from request headers and metadata
         """
+        print(f"[CustomLangfuseLogger] Extracting metadata from kwargs keys: {list(kwargs.keys())}")
         metadata = {}
         
         # Extract from litellm_params metadata
@@ -69,6 +68,7 @@ class CustomLangfuseLogger(CustomLogger):
         
         # Extract from additional headers
         headers = kwargs.get("litellm_params", {}).get("extra_headers", {})
+        print(f"[CustomLangfuseLogger] Found headers: {headers}")
         
         # Open WebUI user headers (when ENABLE_FORWARD_USER_INFO_HEADERS=true)
         user_headers = {
@@ -82,6 +82,7 @@ class CustomLangfuseLogger(CustomLogger):
         
         # Remove None values
         user_headers = {k: v for k, v in user_headers.items() if v is not None}
+        print(f"[CustomLangfuseLogger] Extracted user headers: {user_headers}")
         
         # Generate session ID if not provided
         if not user_headers.get("session_id"):
@@ -115,6 +116,7 @@ class CustomLangfuseLogger(CustomLogger):
         Log event to Langfuse with enhanced metadata
         """
         try:
+            print(f"[CustomLangfuseLogger] Processing {event_type} event")
             # Extract metadata
             metadata = self.extract_open_webui_metadata(kwargs)
             
@@ -176,8 +178,11 @@ class CustomLangfuseLogger(CustomLogger):
             }
             
             # Create trace with session tracking
+            trace_name = f"openwebui-{metadata.get('chat_id', 'unknown')}"
+            print(f"[CustomLangfuseLogger] Creating trace: {trace_name}, session: {metadata.get('session_id')}, user: {metadata.get('user_id')}")
+            
             trace = self.langfuse.trace(
-                name=f"openwebui-{metadata.get('chat_id', 'unknown')}",
+                name=trace_name,
                 session_id=metadata.get("session_id"),
                 user_id=metadata.get("user_id"),
                 metadata={
@@ -189,6 +194,7 @@ class CustomLangfuseLogger(CustomLogger):
             )
             
             # Log generation
+            print(f"[CustomLangfuseLogger] Logging generation with {usage.get('total_tokens', 0)} tokens")
             trace.generation(**generation_data)
             
             # Log span for detailed timing
@@ -213,13 +219,13 @@ class CustomLangfuseLogger(CustomLogger):
             # Flush to ensure data is sent
             self.langfuse.flush()
             
-            verbose_logger.info(
-                f"Logged to Langfuse: session={metadata.get('session_id')}, "
+            print(
+                f"[CustomLangfuseLogger] Logged to Langfuse: session={metadata.get('session_id')}, "
                 f"user={metadata.get('user_id')}, tokens={usage.get('total_tokens', 0)}"
             )
             
         except Exception as e:
-            verbose_logger.error(f"Error logging to Langfuse: {str(e)}\n{traceback.format_exc()}")
+            print(f"[CustomLangfuseLogger] ERROR logging to Langfuse: {str(e)}\n{traceback.format_exc()}")
     
     def extract_response_content(self, response_obj: Any) -> Union[str, Dict, List]:
         """Extract content from response object"""
@@ -257,28 +263,28 @@ class CustomLangfuseLogger(CustomLogger):
         try:
             self.log_event(kwargs, response_obj, start_time, end_time, "completion")
         except Exception as e:
-            verbose_logger.error(f"Error in async_log_success_event: {e}")
+            print(f"[CustomLangfuseLogger] ERROR in async_log_success_event: {e}")
     
     def log_success_event(self, kwargs, response_obj, start_time, end_time):
         """Sync handler for successful completions"""
         try:
             self.log_event(kwargs, response_obj, start_time, end_time, "completion")
         except Exception as e:
-            verbose_logger.error(f"Error in log_success_event: {e}")
+            print(f"[CustomLangfuseLogger] ERROR in log_success_event: {e}")
     
     async def async_log_failure_event(self, kwargs, response_obj, start_time, end_time):
         """Async handler for failed completions"""
         try:
             self.log_event(kwargs, response_obj, start_time, end_time, "error")
         except Exception as e:
-            verbose_logger.error(f"Error in async_log_failure_event: {e}")
+            print(f"[CustomLangfuseLogger] ERROR in async_log_failure_event: {e}")
     
     def log_failure_event(self, kwargs, response_obj, start_time, end_time):
         """Sync handler for failed completions"""
         try:
             self.log_event(kwargs, response_obj, start_time, end_time, "error")
         except Exception as e:
-            verbose_logger.error(f"Error in log_failure_event: {e}")
+            print(f"[CustomLangfuseLogger] ERROR in log_failure_event: {e}")
     
     async def async_log_stream_event(self, kwargs, response_obj, start_time, end_time):
         """Async handler for streaming completions"""
@@ -286,11 +292,11 @@ class CustomLangfuseLogger(CustomLogger):
             # For streaming, we log after the stream is complete
             self.log_event(kwargs, response_obj, start_time, end_time, "stream_completion")
         except Exception as e:
-            verbose_logger.error(f"Error in async_log_stream_event: {e}")
+            print(f"[CustomLangfuseLogger] ERROR in async_log_stream_event: {e}")
     
     def log_stream_event(self, kwargs, response_obj, start_time, end_time):
         """Sync handler for streaming completions"""
         try:
             self.log_event(kwargs, response_obj, start_time, end_time, "stream_completion")
         except Exception as e:
-            verbose_logger.error(f"Error in log_stream_event: {e}")
+            print(f"[CustomLangfuseLogger] ERROR in log_stream_event: {e}")
