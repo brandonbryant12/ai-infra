@@ -11,6 +11,8 @@ general_settings:
   master_key: os.environ/LITELLM_MASTER_KEY
   health_check_interval: 300
   detailed_debug: true
+  disable_prisma_schema_update: true
+  custom_auth: false
 litellm_settings:
   drop_params: true
   set_verbose: false
