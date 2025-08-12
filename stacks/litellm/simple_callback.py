@@ -11,7 +11,14 @@ def log_success(kwargs, response, start_time, end_time):
     """Success callback function"""
     print(f"\n{'='*60}", file=sys.stderr, flush=True)
     print(f"[CALLBACK] SUCCESS at {datetime.utcnow().isoformat()}", file=sys.stderr, flush=True)
-    print(f"[CALLBACK] Duration: {end_time - start_time:.3f}s", file=sys.stderr, flush=True)
+    
+    # Handle both float timestamps and datetime objects
+    if isinstance(start_time, (int, float)) and isinstance(end_time, (int, float)):
+        duration = end_time - start_time
+    else:
+        duration = (end_time - start_time).total_seconds() if hasattr(end_time - start_time, 'total_seconds') else 0
+    
+    print(f"[CALLBACK] Duration: {duration:.3f}s", file=sys.stderr, flush=True)
     
     # Log request info
     if "messages" in kwargs:
@@ -41,7 +48,14 @@ def log_failure(kwargs, response, start_time, end_time):
     """Failure callback function"""
     print(f"\n{'='*60}", file=sys.stderr, flush=True)
     print(f"[CALLBACK] FAILURE at {datetime.utcnow().isoformat()}", file=sys.stderr, flush=True)
-    print(f"[CALLBACK] Duration: {end_time - start_time:.3f}s", file=sys.stderr, flush=True)
+    
+    # Handle both float timestamps and datetime objects
+    if isinstance(start_time, (int, float)) and isinstance(end_time, (int, float)):
+        duration = end_time - start_time
+    else:
+        duration = (end_time - start_time).total_seconds() if hasattr(end_time - start_time, 'total_seconds') else 0
+    
+    print(f"[CALLBACK] Duration: {duration:.3f}s", file=sys.stderr, flush=True)
     
     if isinstance(response, Exception):
         print(f"[CALLBACK] Error: {type(response).__name__}: {str(response)}", file=sys.stderr, flush=True)
