@@ -16,6 +16,6 @@ litellm_settings:
   set_verbose: false
   request_timeout: 600
   success_callback:
-  - file_logger.litellm_file_logger
+  - langfuse
   failure_callback:
-  - file_logger.litellm_file_logger
+  - langfuse
