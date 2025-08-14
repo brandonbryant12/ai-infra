@@ -1,8 +1,35 @@
 model_list:
+# OpenRouter - Cloud model discovery (70+ models)
 - model_name: openrouter/*
   litellm_params:
     model: openrouter/*
     api_key: os.environ/OPENROUTER_API_KEY
+
+# Ollama - Local model discovery (uncomment to enable)
+# - model_name: ollama/*
+#   litellm_params:
+#     model: ollama/*
+#     api_base: http://localhost:11434  # Default Ollama port
+
+# vLLM - High-performance model serving (uncomment to enable)
+# - model_name: vllm/*
+#   litellm_params:
+#     model: vllm/*
+#     api_base: http://localhost:8000  # Default vLLM port
+
+# IMPORTANT: Model discovery with wildcard (*) ONLY works for providers 
+# that LiteLLM has built-in discovery support for (openrouter, ollama, vllm, etc.)
+#
+# For custom OpenAI-compatible servers, you CANNOT use wildcards.
+# You must manually define each model like this:
+# - model_name: my-custom-model
+#   litellm_params:
+#     model: openai/my-custom-model  # openai/ prefix with custom api_base
+#     api_base: http://my-server:8000  # Your custom server URL
+#     api_key: optional-key
+#
+# The openai/* wildcard would try to discover from api.openai.com,
+# NOT from your custom api_base, so it won't work for custom servers.
 
 general_settings:
   user_header_name: x-openwebui-user-name 
