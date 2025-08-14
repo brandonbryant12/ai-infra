@@ -16,6 +16,20 @@ model_list:
 #   litellm_params:
 #     model: vllm/*
 #     api_base: http://localhost:8000  # Default vLLM port
+#
+# HOW WILDCARD MODEL DISCOVERY WORKS:
+# 1. Pattern Matching: Wildcard patterns like "vllm/*" are converted to regex
+#    - The * becomes (.*) to match any model name after the provider prefix
+#    - Example: "vllm/*" matches "vllm/gpt-4", "vllm/llama-2", etc.
+# 2. Model Discovery: When check_provider_endpoint: true is set (see below),
+#    LiteLLM queries the provider's /v1/models endpoint to get available models
+# 3. Open WebUI Integration: Open WebUI calls LiteLLM's /v1/models endpoint
+#    which returns all discovered models in OpenAI-compatible format
+# 4. Implementation Details:
+#    - Pattern matching: https://github.com/BerriAI/litellm/blob/main/litellm/router_utils/pattern_match_deployments.py
+#    - vLLM integration: https://github.com/BerriAI/litellm/blob/main/litellm/llms/vllm/common_utils.py
+#    - Router logic: https://github.com/BerriAI/litellm/blob/main/litellm/router.py
+#    - Requires provider to expose OpenAI-compatible /v1/models endpoint
 
 # IMPORTANT: Model discovery with wildcard (*) ONLY works for providers 
 # that LiteLLM has built-in discovery support for (openrouter, ollama, vllm, etc.)
