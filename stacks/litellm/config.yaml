@@ -1,10 +1,8 @@
 model_list:
-- model_name: openai-gpt-oss-120b
+- model_name: openrouter/*
   litellm_params:
-    model: openrouter/openai/gpt-oss-120b
+    model: openrouter/*
     api_key: os.environ/OPENROUTER_API_KEY
-    api_base: https://openrouter.ai/api/v1
-    max_tokens: 32768
 
 general_settings:
   user_header_name: x-openwebui-user-name 
@@ -12,6 +10,7 @@ general_settings:
   health_check_interval: 300
   detailed_debug: true
 litellm_settings:
+  check_provider_endpoint: true
   drop_params: true
   set_verbose: false
   request_timeout: 600
