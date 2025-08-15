@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Usage: python update_model_list.py
+# Usage with env file: python update_model_list.py --env litellm.env
+# Usage with custom config: python update_model_list.py --config custom_config.yaml
+
 import os
 import sys
 import json
@@ -10,8 +14,18 @@ PROVIDERS = {
     "vllm": {
         "api_base_env": "VLLM_API_URL",
         "api_key_env": "VLLM_API_KEY",
+        "prefix": "openai/"
     }
 }
+
+def load_env_file(env_path):
+    if os.path.exists(env_path):
+        with open(env_path) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    os.environ[key.strip()] = value.strip()
 
 def fetch_models(provider, config):
     api_base = os.getenv(config["api_base_env"])
@@ -37,8 +51,12 @@ def fetch_models(provider, config):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", default="config.yaml")
+    parser.add_argument("--config", default="litellm_config.yaml")
+    parser.add_argument("--env", help="Path to .env file")
     args = parser.parse_args()
+    
+    if args.env:
+        load_env_file(args.env)
     
     config = {}
     if os.path.exists(args.config):
@@ -52,6 +70,7 @@ def main():
     
     for provider, provider_config in PROVIDERS.items():
         models = fetch_models(provider, provider_config)
+        prefix = provider_config.get("prefix", "openai/")
         
         for model_id in models:
             model_name = f"{provider}/{model_id}"
@@ -59,7 +78,7 @@ def main():
                 config["model_list"].append({
                     "model_name": model_name,
                     "litellm_params": {
-                        "model": model_name,
+                        "model": f"{prefix}{model_id}",
                         "api_base": f"os.environ/{provider_config['api_base_env']}",
                         "api_key": f"os.environ/{provider_config['api_key_env']}",
                     }
