@@ -7,7 +7,7 @@ services:
       - llmnet
     volumes:
       - ./config.yaml:/app/config.yaml:ro
-      - ./lagnfuse.py:/app/lagnfuse.py:ro
+      - ./langfuse.py:/app/langfuse.py:ro
     env_file:
       - ./litellm.env
     entrypoint: ["litellm", "--config", "/app/config.yaml", "--port", "4000"]

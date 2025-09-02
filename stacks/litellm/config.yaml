@@ -56,6 +56,6 @@ litellm_settings:
   set_verbose: false
   request_timeout: 600
   success_callback:
-   - lagnfuse.langfuse_success_callback
+    - langfuse_success_callback
   failure_callback:
-   - lagnfuse.langfuse_failure_callback
+    - langfuse_failure_callback
