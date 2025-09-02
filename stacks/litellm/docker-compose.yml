@@ -6,11 +6,11 @@ services:
     networks:
       - llmnet
     volumes:
-      - ./startup.sh:/app/startup.sh:ro
       - ./config.yaml:/app/config.yaml:ro
+      - ./lagnfuse.py:/app/lagnfuse.py:ro
     env_file:
       - ./litellm.env
-    entrypoint: ["/bin/bash", "/app/startup.sh"]
+    entrypoint: ["litellm", "--config", "/app/config.yaml", "--port", "4000"]
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:4000/health/liveliness"]
@@ -18,6 +18,29 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  postgres:
+    image: postgres:15
+    ports:
+      - "5433:5432"
+    networks:
+      - llmnet
+    volumes:
+      - litellm_postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: litellm
+      POSTGRES_PASSWORD: litellm
+      POSTGRES_DB: litellm
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U litellm"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  litellm_postgres_data:
 
 networks:
   llmnet:
