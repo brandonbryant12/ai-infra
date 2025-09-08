@@ -11,12 +11,6 @@ model_list:
 #     model: ollama/*
 #     api_base: http://localhost:11434  # Default Ollama port
 
-- model_name: vllm/*
-  litellm_params:
-    model: vllm/*
-    api_base: http://localhost:8000  # Default vLLM port
-    api_key: sk-1234567890
-#
 # HOW WILDCARD MODEL DISCOVERY WORKS:
 # 1. Pattern Matching: Wildcard patterns like "vllm/*" are converted to regex
 #    - The * becomes (.*) to match any model name after the provider prefix
@@ -55,7 +49,4 @@ litellm_settings:
   drop_params: true
   set_verbose: false
   request_timeout: 600
-  success_callback:
-    - langfuse_success_callback
-  failure_callback:
-    - langfuse_failure_callback
+  callbacks: customLogger.logger
