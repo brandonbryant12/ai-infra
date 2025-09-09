@@ -5,24 +5,8 @@ try:
     from langfuse import Langfuse
 except ImportError:
     Langfuse = None
+from litellm.integrations.custom_logger import CustomLogger
 
-# Fallback CustomLogger class if litellm is not available
-try:
-    from litellm.integrations.custom_logger import CustomLogger
-except ImportError:
-    class CustomLogger:
-        def log_pre_api_call(self, model, messages, kwargs):
-            pass
-        def log_post_api_call(self, kwargs, response_obj, start_time, end_time):
-            pass
-        def log_success_event(self, kwargs, response_obj, start_time, end_time):
-            pass
-        def log_failure_event(self, kwargs, response_obj, start_time, end_time):
-            pass
-        async def async_log_success_event(self, kwargs, response_obj, start_time, end_time):
-            pass
-        async def async_log_failure_event(self, kwargs, response_obj, start_time, end_time):
-            pass
 
 class LangFuseLogger(CustomLogger):
     """
